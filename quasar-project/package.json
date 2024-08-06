@@ -1,0 +1,49 @@
+{
+  "name": "quasar-project",
+  "version": "0.0.1",
+  "description": "A Quasar Project",
+  "productName": "IRUP",
+  "author": "JOHN BRIAN PALACIO",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "@react-oauth/google": "^0.12.1",
+    "apexcharts": "^3.49.2",
+    "axios": "^1.2.1",
+    "jwt-decode": "^4.0.0",
+    "pdfmake": "^0.2.9",
+    "quasar": "^2.8.0",
+    "vue": "^3.4.31",
+    "vue-apexcharts": "^1.6.2",
+    "vue-google-oauth2": "^1.5.10",
+    "vue-google-signin-button": "^1.0.4",
+    "vue-router": "^4.0.12",
+    "vue3-apexcharts": "^1.5.3",
+    "vue3-google-auth": "^0.0.2",
+    "vue3-google-oauth2": "^1.0.7",
+    "vuelidate": "^0.7.7",
+    "vuex": "^4.0.1"
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^1.4.3",
+    "@types/pdfmake": "^0.2.9",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "postcss": "^8.4.14",
+    "prettier": "2.8.8"
+  },
+  "engines": {
+    "node": "^20 || ^18 || ^16",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
