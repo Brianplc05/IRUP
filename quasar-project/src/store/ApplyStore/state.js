@@ -15,6 +15,8 @@ export default {
   getUser: [],
   user: null,
   departments: [],
+  subjectcategory: [],
+  subjectname: [],
   employees: [],
   demerit: [],
 };

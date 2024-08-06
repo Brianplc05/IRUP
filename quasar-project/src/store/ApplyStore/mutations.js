@@ -13,12 +13,12 @@ export default {
     state.getForm = getForm;
   },
 
-  GET_SubName(state, getForm){
-    state.getForm = getForm;
+  GET_SubName(state, subjectname){
+    state.subjectname = subjectname;
   },
 
-  GET_SubCategory(state, getForm){
-    state.getForm = getForm;
+  GET_SubCategory(state, subjectcategory){
+    state.subjectcategory = subjectcategory;
   },
 
   SET_USER(state, getUser) {

@@ -51,7 +51,7 @@
                     <q-card class="bg-warning">
                       <q-card-section>
                         <div style="display: flex; justify-content: space-between;">
-                          <q-input square outlined v-model="SubjectName" label="RISK NAME*" style="margin-left: 5px; width: 49%;"></q-input>
+                          <q-input square outlined v-model="SubjectName" label="RISK NAME" style="margin-left: 5px; width: 49%;"></q-input>
                           <q-select v-model="SubjectPolicy" @new-value="createValue" label="POLICY" square outlined multiple use-input use-chips hide-dropdown-icon
                             style="margin-right: 5px; width: 49%;"
                           />

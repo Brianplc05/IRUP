@@ -88,6 +88,7 @@
                 clearable
                 v-model="SubCategory"
                 :options="disSubCategory"
+                @filter="FilterCategory"
                 label="RISK CATEGORY"
                 emit-value
                 map-options
@@ -105,6 +106,7 @@
                 :disable="!SubCategory"
                 v-model="SubjectCode"
                 :options="filteredSubjects"
+                @filter="FilterSubIncident"
                 label="SUBJECT OF THE INCIDENT"
                 emit-value
                 map-options
@@ -354,7 +356,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ getForm: 'ApplyStore/getForm',  getGoogleUser: 'ApplyStore/getGoogleUser', loggedInUser: 'ApplyStore/getUser', getIRForm: 'ApplyStore/getIRForm' }),
+    ...mapGetters({ getForm: 'ApplyStore/getForm',  getGoogleUser: 'ApplyStore/getGoogleUser',
+                    loggedInUser: 'ApplyStore/getUser', getIRForm: 'ApplyStore/getIRForm',
+                    subjectname: 'ApplyStore/subjectname', subjectcategory: 'ApplyStore/subjectcategory'}),
 
     filteredSubjects() {
       if (!this.SubCategory) return [];
@@ -505,7 +509,7 @@ export default {
     async getSN() {
       try {
         await this.$store.dispatch("ApplyStore/disSubName");
-        this.disSubName = this.getForm;
+        this.disSubName = this.subjectname;
       } catch (error) {
         console.error("Error Displaying Data:", error);
       }
@@ -514,11 +518,45 @@ export default {
     async getSC() {
       try {
         await this.$store.dispatch("ApplyStore/disSubCategory");
-        this.disSubCategory = this.getForm;
+        this.disSubCategory = this.subjectcategory;
       } catch (error) {
         console.error("Error Displaying Data:", error);
       }
     },
+
+    FilterCategory(val, update) {
+        if (val === "") {
+            update(() => {
+              this.disSubCategory = this.subjectcategory;
+            });
+            return;
+        }
+
+        update(() => {
+            const needle = val.toLowerCase();
+            this.disSubCategory = this.subjectcategory.filter((option) => {
+              return option.SubjectCategory.toLowerCase().indexOf(needle) > -1;
+            });
+        });
+    },
+
+    FilterSubIncident(val, update) {
+        if (val === "") {
+            update(() => {
+              this.disSubName = this.subjectname;
+            });
+            return;
+        }
+
+        update(() => {
+            const needle = val.toLowerCase();
+            this.disSubName = this.subjectname.filter((option) => {
+              return option.SubjectName.toLowerCase().indexOf(needle) > -1;
+            });
+        });
+    },
+
+
 
     updateSubjectDate(date){
       this.SubjectDate = date.toISOString().split('T')[0];

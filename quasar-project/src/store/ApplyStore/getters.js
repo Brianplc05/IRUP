@@ -17,6 +17,8 @@ export default {
   getUser: (state) => state.getUser,
   isLoggedIn: state => !!state.user,
   departments: (state) => state.departments,
+  subjectcategory:(state) => state.subjectcategory,
+  subjectname:(state) => state.subjectname,
   employees: (state) => state.employees,
   demerit: (state) => state.demerit
 }
