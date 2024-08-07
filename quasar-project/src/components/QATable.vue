@@ -93,17 +93,26 @@
   <template v-slot:body-cell-QA="props">
     <q-td :props="props">
       <span
-        v-if="props.row.MainFullName !== null"
-        :class="{'cursor-not-allowed': props.row.TransferFullName !== null || props.row.QAStatus === false}"
-        @click="props.row.TransferFullName === null && props.row.QAStatus !== false ? qaTransfer(props.row.IRNo, props.row.SubjectCode) : null"
-        class="text-dark text-bold text-center">
+        v-if="props.row.MainFullName === 'BAYOG, VANGERINE DE MESA.'"
+        class="text-dark text-bold text-center"
+      >
         {{ props.row.MainFullName }}
       </span>
-      <br/>
+
+      <span
+        v-if="props.row.MainFullName !== 'BAYOG, VANGERINE DE MESA.'"
+        :class="{'cursor-not-allowed': props.row.TransferFullName !== null || props.row.QAStatus === false}"
+        @click="props.row.TransferFullName === null && props.row.QAStatus !== false ? qaTransfer(props.row.IRNo, props.row.SubjectCode) : null"
+        class="text-dark text-bold text-center"
+      >
+        {{ props.row.MainFullName }}
+      </span>
+
+      <br />
+
       <span v-if="props.row.TransferFullName !== null" class="text-dark text-bold text-center">
         REDIRECTED TO: <b style="background: #ffc619;">{{ props.row.TransferFullName }}</b>
       </span>
-
 
         <q-dialog v-model="setQATraDialogs">
           <q-card>
