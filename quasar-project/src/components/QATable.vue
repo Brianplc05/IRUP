@@ -93,14 +93,7 @@
   <template v-slot:body-cell-QA="props">
     <q-td :props="props">
       <span
-        v-if="props.row.MainFullName === 'BAYOG, VANGERINE DE MESA.'"
-        class="text-dark text-bold text-center"
-      >
-        {{ props.row.MainFullName }}
-      </span>
-
-      <span
-        v-if="props.row.MainFullName !== 'BAYOG, VANGERINE DE MESA.'"
+        v-if="props.row.MainFullName !== 'null'"
         :class="{'cursor-not-allowed': props.row.TransferFullName !== null || props.row.QAStatus === false}"
         @click="props.row.TransferFullName === null && props.row.QAStatus !== false ? qaTransfer(props.row.IRNo, props.row.SubjectCode) : null"
         class="text-dark text-bold text-center"

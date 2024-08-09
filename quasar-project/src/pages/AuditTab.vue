@@ -32,14 +32,16 @@
 
           <q-card-section class="bg-primary" style="border-top: 0.1em solid #d5d7da;">
             <div class="text-right">
-              <q-btn @click="subjectIncident" :ripple="{ center: true }" color="accent" icon="edit_square" label="RISK" class="text-black text-bold text-center shadow-5" style="width: 110px;" />
+              <q-btn @click="subjectIncident" :ripple="{ center: true }" icon="add_card" color="accent" label="REPORTABLE INCIDENT" class="text-black text-bold text-center shadow-5" style="width: 220px;" />
+              <q-btn @click="riskDisctionary" :ripple="{ center: true }" color="accent" icon="edit_square" label="RISK" class="text-black text-bold text-center shadow-5" style="width: 110px; margin-left:10px;" />
             </div>
 
-            <q-dialog full-width full-height v-model="SubIncident" persistent>
+<!-- ////////////////////////////////////////////////// SUBJECT INCIDENT /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            <q-dialog maximized v-model="SubIncident" persistent>
               <q-card class="SIODialog">
                 <q-card-section class="AuditIR">
                   <div class="row items-center justify-between">
-                    <div class="AuditText">SUBJECT OF INCIDENT</div>
+                    <div class="AuditText">REPORTABLE INCIDENT</div>
                     <q-btn style=" margin-left: 5px;" round push icon="close" class="bg-accent text-black" @click="SubIncident = false" v-close-popup/>
                   </div>
                 </q-card-section>
@@ -47,26 +49,25 @@
                 <q-card-section>
                   <q-list full-width>
 
-                    <q-expansion-item group="somegroup" icon="library_books" label="ADD RISK" class="expansiondes" v-model="isAddRiskOpen">
+                    <q-expansion-item group="somegroup" icon="library_books" label="ADD REPORTABLE INCIDENT" class="expansiondes" v-model="isAddRiskOpen">
                     <q-card class="bg-warning">
                       <q-card-section>
                         <div style="display: flex; justify-content: space-between;">
-                          <q-input square outlined v-model="SubjectName" label="RISK NAME" style="margin-left: 5px; width: 49%;"></q-input>
+                          <q-input square outlined v-model="SubjectName" label="REPORTABLE NAME" style="margin-left: 5px; width: 49%;"></q-input>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                          <q-input square outlined v-model="SubjectRiskCode" label="RISK CODE" style="margin-left: 5px; width: 49%;"></q-input>
+                          <q-select use-input square outlined v-model="EmployeeCode" :options="disQA" label="QA INCHARGE"
+                            emit-value map-options :option-value="option => option.EmployeeCode" :option-label="option => option.FullName"
+                            style="margin-right: 5px; width: 49%;"/>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
                           <q-select v-model="SubjectPolicy" @new-value="createValue" label="POLICY" square outlined multiple use-input use-chips hide-dropdown-icon
-                            style="margin-right: 5px; width: 49%;"
+                            style="margin-left: 5px; width: 49%;"
                           />
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                          <q-input square outlined v-model="SubjectCatCode" label="RISK CATEGORY CODE" style="margin-left: 5px; width: 49%;"></q-input>
-                          <q-input square outlined v-model="SubjectCategory" label="RISK CATEGORY" style="margin-right: 5px; width: 49%;"></q-input>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                          <q-select use-input square outlined v-model="EmployeeCode" :options="disQA" label="QA INCHARGE" emit-value map-options :option-value="option => option.EmployeeCode" :option-label="option => option.FullName" style="margin-left: 5px; width: 49%;"/>
-                          <q-select use-input square outlined v-model="SecondaryQA" :options="disQA" label="SECONDARY QA" emit-value map-options :option-value="option => option.EmployeeCode" :option-label="option => option.FullName" style="margin-right: 5px; width: 49%;"/>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                          <q-input square outlined autogrow v-model="SubjectDescription" label="RISK DESCRIPTION" style="margin-left: 5px; width: 49%;"></q-input>
-                          <q-input square outlined autogrow v-model="SubjectExample" label="RISK EXAMPLE" style="margin-right: 5px; width: 49%;"></q-input>
+                          <q-select use-input square outlined v-model="SecondaryQA" :options="disQA" label="SECONDARY QA"
+                            emit-value map-options :option-value="option => option.EmployeeCode" :option-label="option => option.FullName"
+                            style="margin-right: 5px; width: 49%;"/>
                         </div>
                       </q-card-section>
                       <q-card-actions align="right" class="custom-card-actions">
@@ -76,8 +77,8 @@
                     </q-card>
                     </q-expansion-item>
 
-                    <q-expansion-item default-opened group="somegroup" icon="table_rows" label="RISK DETAILS" class="expansiondes"  v-model="isRiskDetailsOpen">
-                      <q-markup-table class="custom-q-table">
+                    <q-expansion-item default-opened group="somegroup" icon="table_rows" label="REPORTABLE INCIDENT DETAILS" class="expansiondes"  v-model="isRiskDetailsOpen">
+                      <q-markup-table class="custom-q-table ">
                         <thead>
                           <tr>
                             <th v-for="column in disSubColumns" :key="column.name" class="custom-header">
@@ -110,8 +111,86 @@
                 </q-card-section>
               </q-card>
             </q-dialog>
-          </q-card-section>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
+<!-- //////////////////////////////////////////////////RISK DICTIONARY/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            <q-dialog maximized v-model="RiskDictionary" persistent>
+              <q-card class="SIODialog">
+                <q-card-section class="AuditIR">
+                  <div class="row items-center justify-between">
+                    <div class="AuditText">RISK DICTIONARY</div>
+                    <q-btn style=" margin-left: 5px;" round push icon="close" class="bg-accent text-black" @click="RiskDictionary = false" v-close-popup/>
+                  </div>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-list full-width>
+                    <q-expansion-item group="somegroup" label="ADD RISK DICTIONARY" class="expansiondes" v-model="isAddRiskDicOpen">
+                      <q-card class="bg-warning">
+                        <q-card-section>
+                          <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                            <q-input square outlined v-model="DomainCode" label="DOMIAN CODE " style="margin-left: 5px; width: 49%;"></q-input>
+                            <q-input square outlined v-model="RiskDomain" label="RISK DOMAIN" style="margin-right: 5px; width: 49%;"></q-input>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                            <q-input square outlined v-model="Risk" label="RISK" style="margin-left: 5px; width: 49%;"></q-input>
+                            <q-input square outlined autogrow v-model="RiskDescription" label="RISK DESCRIPTION" style="margin-right: 5px; width: 49%;"></q-input>
+                          </div>
+                        </q-card-section>
+                        <q-card-actions align="right" class="custom-card-actions">
+                          <q-btn push label="CLEAR" @click="onCancelRiskDic" color="secondary" class="button1"></q-btn>
+                          <q-btn push label="SAVE" @click="submitRiskDic" color="accent text-black" class="button1"></q-btn>
+                        </q-card-actions>
+                      </q-card>
+                    </q-expansion-item>
+
+                      <q-dialog v-model="waiting" persistent content-class="non-transparent-dialog">
+                        <div class="risk-card">
+                          <q-card-section>
+                            <div class="spinner-container">
+                              <q-spinner-facebook size="200px"></q-spinner-facebook>
+                              <div class="risk-wait">Doing something. Please wait...</div>
+                            </div>
+                          </q-card-section>
+                        </div>
+                      </q-dialog>
+
+                    <q-expansion-item default-opened group="somegroup" label="RISK DICTIONARY DETAILS" class="expansiondes"  v-model="isRiskDicOpen">
+                      <q-card class="bg-warning">
+                        <q-card-section class="row justify-end">
+                          <q-input color="secondary" label-color="secondary" outlined v-model="searchRisk" label="SEARCH" style="width: 18%;">
+                            <template v-slot:append>
+                              <q-icon name="search" color="secondary" />
+                            </template>
+                          </q-input>
+                        </q-card-section>
+
+                        <q-markup-table class="custom-q-table">
+                          <thead>
+                            <tr>
+                              <th v-for="column in disRiskDicColumns" :key="column.name" class="custom-header">
+                                {{ column.label }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="row in filteredDisRiskDic" :key="row.id">
+                              <td v-for="column in disRiskDicColumns" :key="column.name" class="custom-cell">
+                                {{ row[column.field] }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </q-markup-table>
+                      </q-card>
+                    </q-expansion-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-dialog>
+          </q-card-section>
+ <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+ <!-- //////////////////////////////////////////////////AUDIT TABLE/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
           <q-spinner-ball class="spinner" v-if="spiloading" size="150px" color="primary"/>
           <q-table
               v-show="showTable"
@@ -446,13 +525,6 @@ export default {
           { name: 'note', label: 'POLICY', align: 'center', },
           { name: 'auditstatus', label: 'STATUS', align: 'left', field: 'AuditStatus' }
       ],
-      disSubColumns:[
-          { name: 'category', label: 'RISK CATEGORY', align: 'left', field: 'SubjectCategory' },
-          { name: 'subject', label: 'SUBJECT OF THE INCIDENT', align: 'left', field: 'SubjectName' },
-          { name: 'qa', label: 'QA INCHARGE', align: 'left', field: 'QAName' },
-          { name: 'description', label: 'RISK DESCRIPTION', align: 'left', field: 'SubjectDescription' },
-          { name: 'example', label: 'RISK EXAMPLE', align: 'left', field: 'SubjectExample' },
-      ],
       auditStats: [
         { label: 'OPEN', value: true },
         { label: 'CLOSED', value: false },
@@ -461,22 +533,45 @@ export default {
       shouldShowInput: true,
 
       disQA: [],
+      disSubColumns:[
+          { name: 'domain', label: 'RISK DOMAIN', align: 'left', field: 'RiskDomain' },
+          { name: 'risk', label: 'RISK', align: 'left', field: 'Risk' },
+          { name: 'subject', label: 'REPORTABLE INCIDENT', align: 'left', field: 'SubjectName' },
+          { name: 'description', label: 'RISK DESCRIPTION', align: 'left', field: 'RiskDescription' },
+          { name: 'qa', label: 'QA INCHARGE', align: 'left', field: 'QAName' },
+      ],
       EmployeeCode: '',
       SecondaryQA: '',
       SubjectPolicy: [],
-      SubjectCatCode: '',
+      SubjectRiskCode: '',
       SubjectName: '',
-      SubjectCategory: '',
-      SubjectDescription: '',
-      SubjectExample: '',
       waiting: false,
       isAddRiskOpen: true,
       isRiskDetailsOpen: false,
+
+      RiskDictionary: false,
+      isRiskDicOpen: false,
+      isAddRiskDicOpen: false,
+      searchRisk: '',
+      disAllRisk: [],
+      disRiskDicColumns:[
+          { name: 'domain', label: 'RISK DOMAIN', align: 'left', field: 'RiskDomain' },
+          { name: 'riskCode', label: 'RISK CODE', align: 'left', field: 'RiskCode' },
+          { name: 'risk', label: 'RISK', align: 'left', field: 'Risk' },
+          { name: 'description', label: 'RISK DESCRIPTION', align: 'left', field: 'RiskDescription' },
+      ],
+      DomainCode: '',
+      RiskDomain: '',
+      Risk: '',
+      RiskDescription: ''
+
     }
   },
 
   computed: {
-    ...mapGetters({ getForm: 'ApplyStore/getForm', getSubject: 'ApplyStore/getSubject', getQA: 'ApplyStore/getQA', getAudit: 'ApplyStore/getAudit',  getQAForm: 'ApplyStore/getQAForm'}),
+    ...mapGetters({ getForm: 'ApplyStore/getForm', getSubject: 'ApplyStore/getSubject',
+                    getQA: 'ApplyStore/getQA', getRisk: 'ApplyStore/getRisk',
+                    getAudit: 'ApplyStore/getAudit',  getQAForm: 'ApplyStore/getQAForm'}),
 
     filteredDisAll() {
         const { disAll, selectedStatus, searchQuery } = this;
@@ -509,6 +604,21 @@ export default {
           );
         }
       return filteredSub;
+    },
+
+    filteredDisRiskDic(){
+      const { disAllRisk, searchRisk } = this;
+      let filteredRisk= [...disAllRisk];
+
+      if (searchRisk && typeof searchRisk === 'string') {
+          const query = searchRisk.toLowerCase();
+          filteredRisk = filteredRisk.filter(item =>
+            Object.values(item).some(val =>
+              typeof val === 'string' && val.toLowerCase().includes(query)
+            )
+          );
+        }
+      return filteredRisk;
     }
   },
 
@@ -525,6 +635,7 @@ export default {
   created() {
     this.getInc();
     this.getSubjecttab();
+    this.getRiskTable();
     this.getQAtrans();
   },
 
@@ -542,6 +653,16 @@ export default {
       try {
         await this.$store.dispatch("ApplyStore/disSubjectTab");
         this.disAllSubject = this.getSubject;
+      } catch (error) {
+        console.error("Error Displaying data:", error);
+      }
+    },
+
+    async getRiskTable() {
+      try {
+        await this.$store.dispatch("ApplyStore/disRiskTab");
+        console.log(this.getRisk)
+        this.disAllRisk = this.getRisk;
       } catch (error) {
         console.error("Error Displaying data:", error);
       }
@@ -575,10 +696,7 @@ export default {
     onCancelRisk(){
         this.SubjectName = '',
         this.SubjectPolicy = [],
-        this.SubjectCatCode = '',
-        this.SubjectCategory = '',
-        this.SubjectDescription = '',
-        this.SubjectExample = '',
+        this.SubjectRiskCode = '',
         this.EmployeeCode = '',
         this.SecondaryQA = ''
     },
@@ -586,7 +704,7 @@ export default {
     validateRisk(){
       return(
         this.SubjectName &&
-        this.SubjectCategory &&
+        this.SubjectRiskCode &&
         this.EmployeeCode
         )
       },
@@ -630,10 +748,7 @@ export default {
         const riskdata = {
           SubjectName: this.SubjectName,
           SubjectPolicy: this.getPlainArray(this.SubjectPolicy),
-          SubjectCatCode: this.SubjectCatCode,
-          SubjectCategory: this.SubjectCategory,
-          SubjectDescription: this.SubjectDescription,
-          SubjectExample: this.SubjectExample,
+          SubjectRiskCode: this.SubjectRiskCode,
           EmployeeCode: this.EmployeeCode,
           SecondaryQA: this.SecondaryQA
         }
@@ -646,8 +761,84 @@ export default {
       }
     },
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    FormatDate(SubjectDate){
+//////////////////////////////////////////////////RISK DICTIONARY///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    riskDisctionary(){
+      this.RiskDictionary = true;
+    },
+
+    onCancelRiskDic(){
+        this.DomainCode = '',
+        this.RiskDomain = '',
+        this.Risk = '',
+        this.RiskDescription = ''
+    },
+
+    validateRiskDic(){
+      return(
+        this.DomainCode &&
+        this.RiskDomain &&
+        this.Risk &&
+        this.RiskDescription
+        )
+    },
+
+    async submitRiskDic() {
+        try {
+            if (!this.validateRiskDic()) {
+                this.$q.notify({
+                    type: 'negative',
+                    message: 'ALL ITEMS ARE REQUIRED',
+                    position: 'top',
+                    timeout: 1000,
+                    progress: true
+                });
+            return;
+          }
+          this.waiting = true;
+          await this.saveRiskDic();
+          setTimeout(() => {
+            this.getRiskTable();
+            this.waiting = false;
+            this.isAddRiskDicOpen = false;
+            this.isRiskDicOpen = true;
+          }, 2000); // Refresh the page after 3 seconds
+          this.$q.notify({
+                color: 'green-8',
+                position: 'top',
+                message: 'SUCCESS ADDING NEW RISK DICTIONARY',
+                icon: 'check',
+                iconColor: 'white',
+                timeout: 3000,
+                progress: true,
+              });
+        } catch (error) {
+          console.error(error);
+      }
+    },
+
+    async saveRiskDic(){
+      try{
+        const riskdic = {
+          DomainCode: this.DomainCode,
+          RiskDomain: this.RiskDomain,
+          Risk: this.Risk,
+          RiskDescription: this.RiskDescription,
+        }
+        console.log('ETO ANG LAMAN NG RISKDICTIONARY', riskdic)
+        this.onCancelRiskDic();
+        await this.$store.dispatch('ApplyStore/addRiskDictionary', riskdic);
+        console.log("DATA INSERTED SUCCESSFULLY");
+      }catch(error) {
+        console.error('Error inserting data:', error);
+      }
+    },
+
+
+//////////////////////////////////////////////////INCIDENT FORM///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  FormatDate(SubjectDate){
     const date = new Date(SubjectDate);
     const options = { year: 'numeric', month: 'short', day: '2-digit' };
     const formattedDate = date.toLocaleDateString('en-US', options).toUpperCase().replace(/\s/g, ' ');

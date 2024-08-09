@@ -12,10 +12,7 @@
           <div class="btn">
             <q-btn push label="CREATE REPORT" color="accent" @click="basic = true" class="btn2 text-black shadow-17"></q-btn>
           </div>
-      </div>
-      <!-- <div class="box1">
-        <img src="../assets/PEOPLE.png" alt="People Image" class="people-img">
-      </div> -->
+        </div>
     </div>
 
 <!-- ////////////////////////////////////////////////////CREATE INCIDENT ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -103,7 +100,7 @@
                 square
                 outlined
                 clearable
-                :disable="!SubCategory"
+
                 v-model="SubjectCode"
                 :options="filteredSubjects"
                 @filter="FilterSubIncident"

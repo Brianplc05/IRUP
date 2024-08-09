@@ -138,6 +138,10 @@ export default {
     state.getSubject = getSubject;
   },
 
+  GET_RISKFORM(state, getRisk){
+    state.getRisk = getRisk;
+  },
+
 
 
 

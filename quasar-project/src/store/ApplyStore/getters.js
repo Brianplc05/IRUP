@@ -19,6 +19,7 @@ export default {
   departments: (state) => state.departments,
   subjectcategory:(state) => state.subjectcategory,
   subjectname:(state) => state.subjectname,
+  getRisk:(state) => state.getRisk,
   employees: (state) => state.employees,
   demerit: (state) => state.demerit
 }

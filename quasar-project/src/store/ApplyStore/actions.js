@@ -690,6 +690,28 @@ async addSubjectDetails({ commit }, riskdata) {
   }
 },
 
+async disRiskTab({ commit }){
+  try{
+    const response = await axios.get(`${ApiUrl}/forms/DisplayRiskTab`);
+    console.log(response)
+    commit("GET_RISKFORM", response.data);
+  } catch (error){
+    console.error("ERROR", error);
+    throw error;
+  }
+},
+
+async addRiskDictionary({ commit }, riskdic){
+  try {
+    const response = await axios.post(`${ApiUrl}/forms/AddRiskDic`, riskdic);
+    commit("GET_RISKFORM", response.data);
+  } catch (error) {
+    console.error("ERROR", error);
+    throw error;
+  }
+},
+
+
   async AddAud({ commit }, data){
     try{
       const response = await axios.post(`${ApiUrl}/forms/AddAudit`, data);

@@ -12,6 +12,7 @@ export default {
   getForm: [],
   getAudit: [],
   getSubject: [],
+  getRisk: [],
   getUser: [],
   user: null,
   departments: [],
