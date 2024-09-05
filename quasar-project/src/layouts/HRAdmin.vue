@@ -14,9 +14,9 @@
         <q-btn
           v-if="isUserLoggedIn"
           push
-          class="bg-accent text-black"
+          class="bg-negative text-white"
           icon="exit_to_app"
-          aria-label="Logout"
+          label="LOGOUT"
           @click="logout"
         />
       </q-toolbar>
@@ -34,11 +34,15 @@
             <q-item-label>
               <div class="column items-center">
                 <q-avatar size="120px">
-                  <img :src="avatarUrl + loggedInUser.EmployeeCode">
+                  <img :src="avatarUrl + loggedInUser.EmployeeCode" />
                 </q-avatar>
               </div>
-              <p class="item-label" v-if="loggedInUser">{{ loggedInUser.FullName }}</p>
-              <p class="item-label1" v-if="loggedInUser">{{ loggedInUser.Department_Description }}</p>
+              <p class="item-label" v-if="loggedInUser">
+                {{ loggedInUser.FullName }}
+              </p>
+              <p class="item-label1" v-if="loggedInUser">
+                {{ loggedInUser.Department_Description }}
+              </p>
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -70,7 +74,6 @@
             @select="navigateTo(hrItem.link)"
           />
         </q-expansion-item>
-
       </q-list>
     </q-drawer>
 
@@ -81,11 +84,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import EssentialLink from '../components/EssentialLink.vue';
+import { mapGetters, mapActions } from "vuex";
+import EssentialLink from "../components/EssentialLink.vue";
 
 export default {
-  name: 'MainLayout',
+  name: "MainLayout",
 
   data() {
     return {
@@ -104,34 +107,33 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('ApplyStore/initAuth')
-      .catch(error => {
-        console.error('Error initializing authentication:', error);
-      });
+    this.$store.dispatch("ApplyStore/initAuth").catch((error) => {
+      console.error("Error initializing authentication:", error);
+    });
 
-    const savedLink = localStorage.getItem('selectedLink');
+    const savedLink = localStorage.getItem("selectedLink");
     if (savedLink) {
       this.selectedLink = savedLink;
-      this.$router.push(savedLink.replace('#', ''));
+      this.$router.push(savedLink.replace("#", ""));
     }
   },
 
   computed: {
-    ...mapGetters({ loggedInUser: 'ApplyStore/getUser'}),
+    ...mapGetters({ loggedInUser: "ApplyStore/getUser" }),
     isUserLoggedIn() {
       return !!this.loggedInUser && !!this.loggedInUser.FullName;
     },
   },
 
   methods: {
-    ...mapActions('ApplyStore', ['logoutAction']),
+    ...mapActions("ApplyStore", ["logoutAction"]),
 
     async logout() {
       try {
         await this.logoutAction();
-        this.$router.push('/LogoutPage');
+        this.$router.push("/LogoutPage");
       } catch (error) {
-        console.error('Error logging out:', error);
+        console.error("Error logging out:", error);
       }
     },
 
@@ -142,39 +144,44 @@ export default {
     getList() {
       return [
         {
-          title: 'DASHBOARD',
-          icon: 'dashboard',
-          link: '#/Dashboard',
+          title: "DASHBOARD",
+          icon: "dashboard",
+          link: "#/Dashboard",
         },
         {
-          title: 'REPORT MODULE',
-          icon: 'summarize',
-          link: '#/ReportTable',
+          title: "REPORT MODULE",
+          icon: "summarize",
+          link: "#/ReportTable",
         },
         {
-          title: 'DIRECTOR MODULE',
-          icon: 'account_box',
-          link: '#/DirectorTable',
+          title: "ASSISTANT QA MODULE",
+          icon: "inventory",
+          link: "#/AssistantQATable",
         },
         {
-          title: 'QA MODULE',
-          icon: 'assignment',
-          link: '#/QATable',
+          title: "QA MODULE",
+          icon: "assignment",
+          link: "#/QATable",
         },
         {
-          title: 'AUDIT MODULE',
-          icon: 'assessment',
-          link: '#/AuditTable',
-        }
+          title: "DIRECTOR MODULE",
+          icon: "article",
+          link: "#/DirectorTable",
+        },
+        {
+          title: "AUDIT MODULE",
+          icon: "assessment",
+          link: "#/AuditTable",
+        },
       ];
     },
 
     getHR() {
       return [
         {
-          title: 'HR ADMIN REPORT',
-          icon: 'chrome_reader_mode',
-          link: '#/HRTable',
+          title: "HR ADMIN REPORT",
+          icon: "chrome_reader_mode",
+          link: "#/HRTable",
         },
         // {
         //   title: 'EMPLOYEE OFFENSES',
@@ -186,9 +193,9 @@ export default {
 
     navigateTo(link) {
       this.selectedLink = link;
-      localStorage.setItem('selectedLink', link); // Save the selected link to local storage
+      localStorage.setItem("selectedLink", link); // Save the selected link to local storage
       this.showTable = false;
-      this.$router.push(link.replace('#', ''));
+      this.$router.push(link.replace("#", ""));
     },
   },
 };
@@ -212,15 +219,15 @@ export default {
 .item-label {
   font-weight: bold;
   font-family: Arial Black;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   margin-top: 10px;
   text-align: center;
 }
 .item-label1 {
   font-style: bold;
-  font-family: 'Roboto', sans-serif;
-  color: #FFC619;
+  font-family: "Roboto", sans-serif;
+  color: #ffc619;
   font-size: 12px;
   margin-top: 10px;
   text-align: center;
@@ -230,17 +237,16 @@ export default {
   color: inherit; /* Ensure link color matches theme */
   text-decoration: none; /* Remove default underline */
   font-size: 15px;
-
 }
 /* /...................................ICON.............................................../ */
 .icon-above-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-left: 93px;
-    margin-right: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-left: 93px;
+  margin-right: 54px;
 }
 .icon-above-text .q-icon {
   font-size: 32px; /* Adjust the icon size as needed */

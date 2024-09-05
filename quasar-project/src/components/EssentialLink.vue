@@ -8,7 +8,7 @@
   >
     <q-item-section>
       <div class="q-col">
-        <q-icon :name="icon" :size="iconSize"/>
+        <q-icon :name="icon" :size="iconSize" />
       </div>
       <div class="q-col">
         <q-item-label>{{ title }}</q-item-label>
@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: "EssentialLink",
   props: {
     title: {
       type: String,
@@ -37,13 +37,13 @@ export default defineComponent({
     },
     iconSize: {
       type: String,
-      default: '35px',
+      default: "35px",
     },
     isSelected: {
       type: Boolean,
       default: false,
     },
-  }
+  },
 });
 </script>
 
@@ -54,7 +54,7 @@ export default defineComponent({
   justify-content: center;
 }
 .selected-item {
-  background-color: #FFC619;
+  background-color: #ffc619;
   color: #003566;
   border-left: 8px solid #003566;
 }

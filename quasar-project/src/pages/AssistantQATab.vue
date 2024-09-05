@@ -44,7 +44,7 @@
           :columns="disColumns"
           row-key="IRNo"
           :loading="loading"
-          :getAssistantQA="getAssistantQA"
+          :getAssistantQAs="getAssistantQAs"
         />
       </div>
     </div>
@@ -78,8 +78,14 @@ export default {
           field: "Department_Description",
         },
         {
+          name: "division",
+          label: "DIVISION",
+          align: "left",
+          field: "Division",
+        },
+        {
           name: "subject",
-          label: "SUBJECT OF THE INCIDENT",
+          label: "SUBJECT OF THE REPORTABLE INCIDENT",
           align: "left",
           field: "SubjectCode",
         },
@@ -257,7 +263,72 @@ export default {
   justify-content: center;
 }
 
+/* ///////////////////////////////////////CHANGE DIVISION CODE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.DivisionHD {
+  height: 75px;
+  border: 0.2em solid #f3f4f7;
+  background-color: #003566;
+  border: 0.6em solid #d5d7da;
+}
+.DivisionText {
+  font-weight: bold;
+  font-style: roboto;
+  display: flex;
+  color: #ffc619;
+  font-size: 25px;
+  justify-content: center;
+}
+
+/* ///////////////////////////////////////CHANGE SUBJECT CODE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.AQACHANGE {
+  height: 150px;
+  width: 450px;
+}
+
+.footer-actions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white; /* or any color to match the card */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 0.2em solid #d5d7da;
+}
+
 /* ///////////////////////////////////////LOADING////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.centered-card {
+  width: 450px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #003566;
+  border: 0.6em solid #d5d7da;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  color: #dfe8f0;
+  align-items: center;
+}
+
+.please-wait {
+  margin-top: 10px;
+  font-style: roboto;
+  font-weight: bold;
+  font-size: 20px;
+  color: #ffc619;
+  display: flex;
+}
+
+/* ////////////////////////////////////////////////////////////////////DIALOG LOADING/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.non-transparent-dialog {
+  background-color: white; /* Change to the desired background color */
+}
 
 .centered-card {
   width: 450px;

@@ -1,60 +1,87 @@
 <template>
-  <div id="q-app" style="min-height: 100vh;">
+  <div id="q-app" style="min-height: 100vh">
     <div class="q-pa-sm row items-start q-gutter-xs">
       <div class="my-card">
-          <q-card-section class="bg-primary text-white" style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center;">
-              <q-btn-dropdown
-                push
-                class="filtertab"
-                icon="sort"
-                dropdown-icon="change_history"
-                label="FILTER STATUS "
-                menu-anchor="top right"
-                style="width: 25ch; padding: auto;"
-              >
-                <q-list>
-                  <q-item v-for="option in hrStats" :key="option.value" clickable @click="selectStatus(option)">
-                    <q-item-section>{{ option.label }}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-            </div>
-            <div class="IRHHText">INCIDENT REPORT </div>
-            <div class="q-gutter-md row" style="display: flex; align-items: center;">
-              <q-input dark dense standout v-model="searchQuery" input-class="text-right" class="q-ml-md" style="background-color: #f3f4f7; border-radius: 0.4em;">
-                <template v-slot:append>
-                  <q-icon name="search" style="color:black"></q-icon>
-                </template>
-              </q-input>
-            </div>
-          </q-card-section>
-          <q-page>
-            <q-spinner-ball class="spinner" v-if="loading" size="150px" color="primary"></q-spinner-ball>
-            <humanRTable
-              v-show="showTable"
-              :items="filteredDisAll"
-              :columns="disColumns"
-              :hrStats="hrStats"
-              :getInc="getInc"
-              :getQAForm="getQAForm"
-              :disCod="disCod"
-              :disSpeOF="disSpeOF"
-              :Occurrences="Occurrences"
-              :Penalty="Penalty"
-              style="border-collapse: collapse;"
-              :loading="loading"
-            />
-          </q-page>
+        <q-card-section
+          class="bg-primary text-white"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="display: flex; align-items: center">
+            <q-btn-dropdown
+              push
+              class="filtertab"
+              icon="sort"
+              dropdown-icon="change_history"
+              label="FILTER STATUS "
+              menu-anchor="top right"
+              style="width: 25ch; padding: auto"
+            >
+              <q-list>
+                <q-item
+                  v-for="option in hrStats"
+                  :key="option.value"
+                  clickable
+                  @click="selectStatus(option)"
+                >
+                  <q-item-section>{{ option.label }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
+          <div class="IRHHText">INCIDENT REPORT</div>
+          <div
+            class="q-gutter-md row"
+            style="display: flex; align-items: center"
+          >
+            <q-input
+              dark
+              dense
+              standout
+              v-model="searchQuery"
+              input-class="text-right"
+              class="q-ml-md"
+              style="background-color: #f3f4f7; border-radius: 0.4em"
+            >
+              <template v-slot:append>
+                <q-icon name="search" style="color: black"></q-icon>
+              </template>
+            </q-input>
+          </div>
+        </q-card-section>
+        <q-page>
+          <q-spinner-ball
+            class="spinner"
+            v-if="loading"
+            size="150px"
+            color="primary"
+          ></q-spinner-ball>
+          <humanRTable
+            v-show="showTable"
+            :items="filteredDisAll"
+            :columns="disColumns"
+            :hrStats="hrStats"
+            :getInc="getInc"
+            :getQAForm="getQAForm"
+            :disCod="disCod"
+            :disSpeOF="disSpeOF"
+            :Occurrences="Occurrences"
+            :Penalty="Penalty"
+            style="border-collapse: collapse"
+            :loading="loading"
+          />
+        </q-page>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import humanRTab from 'components/HRTables.vue';
-import { mapGetters } from 'vuex';
+import humanRTab from "components/HRTables.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -64,71 +91,109 @@ export default {
       disAll: [],
       disEmployees: [],
       disColumns: [
-        { name: 'viewIR', label: 'INCIDENT REPORT DETAILS', align: 'left', field: 'id' },
-        { name: 'IRNo', label: 'IRNUMBER', align: 'left', field: 'IRNo' },
-        { name: 'departmentNumber', label: 'INFORMANT (DEPARTMENT)', align: 'left', field: 'Department_Description'},
-        { name: 'subject', label: 'SUBJECT OF THE INCIDENT', align: 'left', field: 'SubjectName' },
-        { name: 'QA', label: 'QA INCHARGE', align: 'left', field: 'id' },
-        { name: 'lostrec', label: 'LOST RECOVERY REQUIRED', align: 'left', field: 'lostRec,' },
+        {
+          name: "viewIR",
+          label: "INCIDENT REPORT DETAILS",
+          align: "left",
+          field: "id",
+        },
+        { name: "IRNo", label: "IRNUMBER", align: "left", field: "IRNo" },
+        {
+          name: "departmentNumber",
+          label: "INFORMANT (DEPARTMENT)",
+          align: "left",
+          field: "Department_Description",
+        },
+        {
+          name: "subject",
+          label: "SUBJECT OF THE INCIDENT",
+          align: "left",
+          field: "SubjectName",
+        },
+        { name: "QA", label: "QA INCHARGE", align: "left", field: "id" },
+        {
+          name: "lostrec",
+          label: "LOST RECOVERY REQUIRED",
+          align: "left",
+          field: "lostRec,",
+        },
         // { name: 'qaref', label: 'HR EVALUATION', align: 'left', field: 'QAReferral,' },
-        { name: 'financialLia', label: 'PECUNIARY LIABILITY', align: 'left', field: 'id' },
+        {
+          name: "financialLia",
+          label: "PECUNIARY LIABILITY",
+          align: "left",
+          field: "id",
+        },
         // { name: 'demerit', label: 'EMPLOYEE OFFENSE RECORD', align: 'left', field: 'id' },
-        { name: 'hrnotes', label: 'HUMAN RESOURCES(HR) NOTE', align: 'left', field: 'newHRNote' },
-        { name: 'hrstatus', label: 'STATUS', align: 'left', field: 'HRStatus' },
+        {
+          name: "hrnotes",
+          label: "HUMAN RESOURCES(HR) NOTE",
+          align: "left",
+          field: "newHRNote",
+        },
+        { name: "hrstatus", label: "STATUS", align: "left", field: "HRStatus" },
         // { name: 'rcastatus', label: 'RCA SUBMITTED', align: 'left', field: 'RCA'},
         // { name: 'hrdisAct', label: 'NTE REQUIRED', align: 'left', field: 'HRDicipAction' },
       ],
       hrStats: [
-        { label: 'OPEN', value: true },
-        { label: 'CLOSED', value: false },
+        { label: "OPEN", value: true },
+        { label: "CLOSED", value: false },
       ],
       Occurrences: [
-      { label: '1ST', value: '1ST' },
-      { label: '2ND', value: '2ND' },
-      { label: '3RD', value: '3RD' },
-      { label: '4TH', value: '4TH' },
-      { label: '5TH', value: '5TH' },
+        { label: "1ST", value: "1ST" },
+        { label: "2ND", value: "2ND" },
+        { label: "3RD", value: "3RD" },
+        { label: "4TH", value: "4TH" },
+        { label: "5TH", value: "5TH" },
       ],
       Penalty: [
-      { label: 'VERBAL WARNING', value: 'VERBAL WARNING' },
-      { label: 'WRITTEN WARNING', value: 'WRITTEN WARNING' },
-      { label: 'SUSPENSION', value: 'SUSPENSION' },
-      { label: 'DISMISSAL', value: 'DISMISSAL' },
+        { label: "VERBAL WARNING", value: "VERBAL WARNING" },
+        { label: "WRITTEN WARNING", value: "WRITTEN WARNING" },
+        { label: "SUSPENSION", value: "SUSPENSION" },
+        { label: "DISMISSAL", value: "DISMISSAL" },
       ],
       disCod: [],
       disSpeOF: [],
       date: new Date(),
       selectedStatus: null,
-      searchQuery: '',
+      searchQuery: "",
       DisciplineCode: null,
       PenaltiesCode: null,
     };
   },
 
   computed: {
-    ...mapGetters({ getForm: 'ApplyStore/getForm',  departments: 'ApplyStore/departments',  employees: 'ApplyStore/employees', getQAForm: 'ApplyStore/getQAForm' }),
+    ...mapGetters({
+      getForm: "ApplyStore/getForm",
+      departments: "ApplyStore/departments",
+      employees: "ApplyStore/employees",
+      getQAForm: "ApplyStore/getQAForm",
+    }),
 
     filteredDisAll() {
-        const { disAll, selectedStatus, searchQuery } = this;
-        let filteredData = [...disAll];
-        if (selectedStatus && typeof selectedStatus === 'object') {
-          const { value: statusValue } = selectedStatus;
-          filteredData = filteredData.filter(item => item.HRStatus === statusValue);
-        }
-        if (searchQuery && typeof searchQuery === 'string') {
-          const query = searchQuery.toLowerCase();
-          filteredData = filteredData.filter(item =>
-            Object.values(item).some(val =>
-              typeof val === 'string' && val.toLowerCase().includes(query)
-            )
-          );
-        }
-        return filteredData;
+      const { disAll, selectedStatus, searchQuery } = this;
+      let filteredData = [...disAll];
+      if (selectedStatus && typeof selectedStatus === "object") {
+        const { value: statusValue } = selectedStatus;
+        filteredData = filteredData.filter(
+          (item) => item.HRStatus === statusValue
+        );
       }
+      if (searchQuery && typeof searchQuery === "string") {
+        const query = searchQuery.toLowerCase();
+        filteredData = filteredData.filter((item) =>
+          Object.values(item).some(
+            (val) =>
+              typeof val === "string" && val.toLowerCase().includes(query)
+          )
+        );
+      }
+      return filteredData;
+    },
   },
 
   components: {
-    'humanRTable': humanRTab,
+    humanRTable: humanRTab,
   },
 
   mounted() {
@@ -143,18 +208,17 @@ export default {
     this.getInc();
     this.getCod();
     this.getSpeOf();
-    this.getEmployees()
+    this.getEmployees();
   },
 
   methods: {
     async getEmployees() {
-        try {
-          await this.$store.dispatch('ApplyStore/Employees');
-          console.log(this.disEmployees)
-          this.disEmployees = this.employees;
-        } catch (error) {
-          console.error('Error displaying data:', error);
-        }
+      try {
+        await this.$store.dispatch("ApplyStore/Employees");
+        this.disEmployees = this.employees;
+      } catch (error) {
+        console.error("Error displaying data:", error);
+      }
     },
 
     async getCod() {
@@ -184,36 +248,34 @@ export default {
       }
     },
 
-    search() {
-    },
+    search() {},
 
     async selectStatus(option) {
-    this.selectedStatus = option;
+      this.selectedStatus = option;
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
-
 .my-card {
   height: 500px;
   width: 100%;
   margin-bottom: 25px;
 }
-.filtertab{
-  background-color: #0F4D91;
+.filtertab {
+  background-color: #0f4d91;
   font-weight: bold;
   border: 0.1em solid #f3f4f7;
   box-shadow: 0 4px 8px rgba(243, 238, 238, 0.1);
   font-style: Arial Black;
 }
-.IRHHText{
+.IRHHText {
   font-weight: bold;
   font-style: roboto;
   font-family: Arial Black;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 35px;
   justify-content: center;
 }
@@ -239,7 +301,7 @@ export default {
   white-space: normal; /* Allow the text to wrap to the next line */
 }
 .q-table th {
-  background-color: #0F4D91;
+  background-color: #0f4d91;
   color: #fff;
 }
 .q-table tbody tr:nth-child(odd) {
@@ -257,16 +319,16 @@ export default {
 /* ///////////////////////////////////////HRIR///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .custom-item-section {
-    border: 1px solid #ccc; /* Border style */
-    border-radius: 1px; /* Border radius */
-    padding: 5px; /* Optional padding */
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 1px; /* Border radius */
+  padding: 5px; /* Optional padding */
 }
-.HRVDia{
+.HRVDia {
   background-color: #ffffff;
   max-height: 100%; /* You can adjust the units based on your preference, 'vw' for viewport width */
   border: 0.2em solid #dcdddf;
 }
-.HRVHead{
+.HRVHead {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -276,16 +338,16 @@ export default {
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.HRVText{
+.HRVText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
   flex: 1;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
 }
-.HRVBC{
-    display: flex;
+.HRVBC {
+  display: flex;
 }
 .HRVList {
   height: 15%;
@@ -293,14 +355,14 @@ export default {
   border: 0.1em solid #cacaca;
   background-color: #003566;
 }
-.HRVGT{
+.HRVGT {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
 }
-.HRDes{
+.HRDes {
   padding: 8px;
   margin-top: 5px;
   width: 98%;
@@ -310,45 +372,45 @@ export default {
 
 /* ///////////////////////////////////////HRDISACTION ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.HRDA{
+.HRDA {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.HRDAText{
+.HRDAText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
 
 /* ///////////////////////////////////////DEMERIT///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.HRDE{
-  width: 500PX;
+.HRDE {
+  width: 500px;
   background-color: #ffffff;
   border: 0.2em solid #f3f4f7;
   font-weight: bold;
   font-style: Arial Black;
 }
-.HRDHead{
+.HRDHead {
   height: 70px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.HRDText{
+.HRDText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
-.HRDEH{
+.HRDEH {
   width: 100%;
   border: 0.1em solid #cacaca;
   background-color: #003566;
@@ -357,9 +419,9 @@ export default {
   display: flex;
   align-items: center;
 }
-.HRDEHText{
+.HRDEHText {
   font-weight: bold;
-  color: #FFC619;
+  color: #ffc619;
   margin-left: 20px;
   font-size: 18px;
   flex: 1;
@@ -368,7 +430,7 @@ export default {
 
 /* ///////////////////////////////////////HRNOTE///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.HRNT{
+.HRNT {
   background-color: #ffffff;
   height: 320px;
   width: 560px;
@@ -380,35 +442,35 @@ export default {
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.HRNText{
+.HRNText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
   flex: 1;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
 }
 
 /* ///////////////////////////////////////HRSTATUS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.HRHS{
+.HRHS {
   height: 8HRNT5px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.HRHSTest{
+.HRHSTest {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.spinner{
+.spinner {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -444,9 +506,7 @@ export default {
   font-style: roboto;
   font-weight: bold;
   font-size: 20px;
-  color: #FFC619;
+  color: #ffc619;
   display: flex;
-
 }
-
 </style>

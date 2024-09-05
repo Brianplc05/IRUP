@@ -1,11 +1,18 @@
-import { route } from 'quasar/wrappers';
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router';
-import routes from './routes';
+import { route } from "quasar/wrappers";
+import {
+  createRouter,
+  createMemoryHistory,
+  createWebHistory,
+  createWebHashHistory,
+} from "vue-router";
+import routes from "./routes";
 
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === "history"
+    ? createWebHistory
+    : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -14,24 +21,38 @@ export default route(function ({ store }) {
   });
 
   Router.beforeEach((to, from, next) => {
-    const loginPages = ['/Main'];
-    const IRLoginPages = ['/', '/Dashboard', '/DirectorTable', '/HRTable', '/Audit', '/QATable', '/EmploTab', '/ReportTable'];
+    const loginPages = ["/Main"];
+    const IRLoginPages = [
+      "/",
+      "/Dashboard",
+      "/DirectorTable",
+      "/HRTable",
+      "/Audit",
+      "/QATable",
+      "/EmploTab",
+      "/ReportTable",
+      "/AssistantQATable",
+    ];
 
-    const loggedIn = localStorage.getItem('user');
+    const loggedIn = localStorage.getItem("user");
+    const authlogRequired = loginPages.some((page) => page === to.path);
+    const authIRlogRequired = IRLoginPages.some((page) => page === to.path);
 
-    const authlogRequired = loginPages.some(page => page === to.path);
-    const authIRlogRequired = IRLoginPages.some(page => page === to.path);
+    let fullpath = to.fullPath.toLowerCase();
+
+    if (fullpath === "/assistantqatable") {
+      console.log("KAHIT ANO");
+    }
 
     if (authlogRequired && !loggedIn) {
-      return next('/Login');
+      return next("/Login");
     }
 
     if (authIRlogRequired && !loggedIn) {
-      return next('/IRLogin');
+      return next("/IRLogin");
     }
     next();
   });
-
 
   return Router;
 });

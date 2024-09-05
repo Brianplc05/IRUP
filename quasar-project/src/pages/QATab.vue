@@ -1,60 +1,87 @@
 <template>
-  <div id="q-app" style="min-height: 100vh;">
+  <div id="q-app" style="min-height: 100vh">
     <div class="q-pa-sm row items-start q-gutter-xs">
       <div class="my-card">
-          <q-card-section class="bg-primary text-white" style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center;">
-              <q-btn-dropdown
-                push
-                class="filtertab"
-                icon="sort"
-                dropdown-icon="change_history"
-                label="FILTER STATUS "
-                menu-anchor="top right"
-                style="width: 25ch; padding: auto;"
-              >
-                <q-list>
-                  <q-item v-for="option in qaStats" :key="option.value" clickable @click="selectStatus(option)">
-                    <q-item-section>{{ option.label }}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-            </div>
-            <div class="IRQHText">INCIDENT REPORT </div>
-            <div class="q-gutter-md row" style="display: flex; align-items: center;">
-              <q-input dark dense standout v-model="searchQuery" input-class="text-right" class="q-ml-md" style="background-color: #f3f4f7; border-radius: 0.4em;">
-                <template v-slot:append>
-                  <q-icon name="search" style="color:black"></q-icon>
-                </template>
-              </q-input>
-            </div>
-          </q-card-section>
-          <q-page>
-            <q-spinner-ball class="spinner" v-if="loading" size="150px" color="primary"></q-spinner-ball>
-            <QATables
-              v-show="showTable"
-              :items="filteredDisAll"
-              :columns="disColumns"
-              :getInc="getInc"
-              :getQAForm="getQAForm"
-              :disQA="disQA"
-              :disDept="disDept"
-              :rcaStats="rcaStats"
-              :qaStats="qaStats"
-              :lostStatus="lostStatus"
-              style="border-collapse: collapse;"
-              :loading="loading"
-            />
-          </q-page>
+        <q-card-section
+          class="bg-primary text-white"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div style="display: flex; align-items: center">
+            <q-btn-dropdown
+              push
+              class="filtertab"
+              icon="sort"
+              dropdown-icon="change_history"
+              label="FILTER STATUS "
+              menu-anchor="top right"
+              style="width: 25ch; padding: auto"
+            >
+              <q-list>
+                <q-item
+                  v-for="option in qaStats"
+                  :key="option.value"
+                  clickable
+                  @click="selectStatus(option)"
+                >
+                  <q-item-section>{{ option.label }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
+          <div class="IRQHText">INCIDENT REPORT</div>
+          <div
+            class="q-gutter-md row"
+            style="display: flex; align-items: center"
+          >
+            <q-input
+              dark
+              dense
+              standout
+              v-model="searchQuery"
+              input-class="text-right"
+              class="q-ml-md"
+              style="background-color: #f3f4f7; border-radius: 0.4em"
+            >
+              <template v-slot:append>
+                <q-icon name="search" style="color: black"></q-icon>
+              </template>
+            </q-input>
+          </div>
+        </q-card-section>
+        <q-page>
+          <q-spinner-ball
+            class="spinner"
+            v-if="loading"
+            size="150px"
+            color="primary"
+          ></q-spinner-ball>
+          <QATables
+            v-show="showTable"
+            :items="filteredDisAll"
+            :columns="disColumns"
+            :getInc="getInc"
+            :getQAForm="getQAForm"
+            :disQA="disQA"
+            :disDept="disDept"
+            :rcaStats="rcaStats"
+            :qaStats="qaStats"
+            :lostStatus="lostStatus"
+            style="border-collapse: collapse"
+            :loading="loading"
+          />
+        </q-page>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import QATab from '../components/QATable.vue';
-import { mapGetters } from 'vuex';
+import QATab from "../components/QATable.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -62,60 +89,112 @@ export default {
       loading: true,
       showTable: false,
       selectedStatus: null,
-      searchQuery: '',
+      searchQuery: "",
       disAllQA: [],
       disColumns: [
-        { name: 'viewIR', label: 'INCIDENT REPORT DETAILS', align: 'left', field: 'id' },
-        { name: 'IRNo', label: 'IRNUMBER', align: 'left', field: 'IRNo' },
-        { name: 'departmentNumber', label: 'INFORMANT (DEPARTMENT)', align: 'left', field: 'Department_Description'},
-        { name: 'subject', label: 'SUBJECT OF THE INCIDENT', align: 'left', field: 'SubjectName' },
-        { name: 'QA', label: 'QA INCHARGE', align: 'left', field: 'id' },
-        { name: 'rcaStat', label: 'ROOT CAUSE ANALYSIS (RCA)', align: 'left', field: 'RCA_Status'},
-        { name: 'involvedDept', label: 'DEPARTMENT INVOLVED', align: 'left', field: 'id' },
-        { name: 'lostrec', label: 'LOST RECOVERY REQUIRED', align: 'left', field: 'lostRec,' },
-        { name: 'rcastatus', label: 'RCA SUBMISSION STATUS', align: 'left', field: 'RCA'},
-        { name: 'actionitems', label: 'ACTION ITEM COMPLETIONS', align: 'left', field: 'id' },
-        { name: 'remarks', label: 'STATUS', align: 'left', field: 'id' },
-        { name: 'qastatus', label: 'QA SIGN OFF ', align: 'left', field: 'QAStatus'}
+        {
+          name: "viewIR",
+          label: "INCIDENT REPORT DETAILS",
+          align: "left",
+          field: "id",
+        },
+        { name: "IRNo", label: "IRNUMBER", align: "left", field: "IRNo" },
+        {
+          name: "departmentNumber",
+          label: "INFORMANT (DEPARTMENT)",
+          align: "left",
+          field: "Department_Description",
+        },
+        {
+          name: "subject",
+          label: "SUBJECT OF THE INCIDENT",
+          align: "left",
+          field: "SubjectName",
+        },
+        { name: "QA", label: "QA INCHARGE", align: "left", field: "id" },
+        {
+          name: "rcaStat",
+          label: "ROOT CAUSE ANALYSIS (RCA)",
+          align: "left",
+          field: "RCA_Status",
+        },
+        {
+          name: "involvedDept",
+          label: "DEPARTMENT INVOLVED",
+          align: "left",
+          field: "id",
+        },
+        {
+          name: "lostrec",
+          label: "LOST RECOVERY REQUIRED",
+          align: "left",
+          field: "lostRec,",
+        },
+        {
+          name: "rcastatus",
+          label: "RCA SUBMISSION STATUS",
+          align: "left",
+          field: "RCA",
+        },
+        {
+          name: "actionitems",
+          label: "ACTION ITEM COMPLETIONS",
+          align: "left",
+          field: "id",
+        },
+        { name: "remarks", label: "STATUS", align: "left", field: "id" },
+        {
+          name: "qastatus",
+          label: "QA SIGN OFF ",
+          align: "left",
+          field: "QAStatus",
+        },
       ],
       disDept: [],
       rcaStats: [
-        { label: 'PENDING', value: '1' },
-        { label: 'SUBMITTED', value: '0' },
-        { label: 'NOT APPLICABLE', value: '3' }
+        { label: "PENDING", value: "1" },
+        { label: "SUBMITTED", value: "0" },
+        { label: "NOT APPLICABLE", value: "3" },
       ],
       qaStats: [
-        { label: 'OPEN', value: true },
-        { label: 'CLOSED', value: false },
+        { label: "OPEN", value: true },
+        { label: "CLOSED", value: false },
       ],
       lostStatus: [
-        { label: 'YES', value: '1' },
-        { label: 'NO', value: '2' },
+        { label: "YES", value: "1" },
+        { label: "NO", value: "2" },
       ],
       disQA: [],
     };
   },
 
   computed: {
-    ...mapGetters({ getQAForm: 'ApplyStore/getQAForm', departments: 'ApplyStore/departments', getQA: 'ApplyStore/getQA'}),
+    ...mapGetters({
+      getQAForm: "ApplyStore/getQAForm",
+      departments: "ApplyStore/departments",
+      getQA: "ApplyStore/getQA",
+    }),
 
     filteredDisAll() {
-        const { disAllQA, selectedStatus, searchQuery } = this;
-        let filteredData = [...disAllQA];
-        if (selectedStatus && typeof selectedStatus === 'object') {
-          const { value: statusValue } = selectedStatus;
-          filteredData = filteredData.filter(item => item.QAStatus === statusValue);
-        }
-        if (searchQuery && typeof searchQuery === 'string') {
-          const query = searchQuery.toLowerCase();
-          filteredData = filteredData.filter(item =>
-            Object.values(item).some(val =>
-              typeof val === 'string' && val.toLowerCase().includes(query)
-            )
-          );
-        }
-        return filteredData;
+      const { disAllQA, selectedStatus, searchQuery } = this;
+      let filteredData = [...disAllQA];
+      if (selectedStatus && typeof selectedStatus === "object") {
+        const { value: statusValue } = selectedStatus;
+        filteredData = filteredData.filter(
+          (item) => item.QAStatus === statusValue
+        );
       }
+      if (searchQuery && typeof searchQuery === "string") {
+        const query = searchQuery.toLowerCase();
+        filteredData = filteredData.filter((item) =>
+          Object.values(item).some(
+            (val) =>
+              typeof val === "string" && val.toLowerCase().includes(query)
+          )
+        );
+      }
+      return filteredData;
+    },
   },
 
   mounted() {
@@ -127,36 +206,35 @@ export default {
   },
 
   components: {
-    'QATables': QATab
+    QATables: QATab,
   },
 
   created() {
     this.getInc();
     this.getDet();
     this.getQAtrans();
-
   },
 
   methods: {
-  async getDet() {
-        try {
-          await this.$store.dispatch('ApplyStore/departments');
-          this.disDept = this.departments;
-        } catch (error) {
-          console.error('Error displaying data:', error);
-        }
+    async getDet() {
+      try {
+        await this.$store.dispatch("ApplyStore/departments");
+        this.disDept = this.departments;
+      } catch (error) {
+        console.error("Error displaying data:", error);
+      }
     },
 
-  async getQAtrans() {
-        try {
-          await this.$store.dispatch('ApplyStore/disQAs');
-          this.disQA = this.getQA;
-        } catch (error) {
-          console.error('Error displaying data:', error);
-        }
+    async getQAtrans() {
+      try {
+        await this.$store.dispatch("ApplyStore/disQAs");
+        this.disQA = this.getQA;
+      } catch (error) {
+        console.error("Error displaying data:", error);
+      }
     },
 
-  async getInc() {
+    async getInc() {
       try {
         await this.$store.dispatch("ApplyStore/disIncQA");
         this.disAllQA = this.getQAForm;
@@ -165,14 +243,13 @@ export default {
       }
     },
 
-  search() {
-    },
+    search() {},
 
     async selectStatus(option) {
-    this.selectedStatus = option;
+      this.selectedStatus = option;
     },
-  }
-}
+  },
+};
 </script>
 
 <style>
@@ -183,21 +260,21 @@ export default {
   width: 100%;
   margin-bottom: 25px;
 }
-.filtertab{
-  background-color: #0F4D91;
+.filtertab {
+  background-color: #0f4d91;
   font-weight: bold;
 }
-.IRQHText{
+.IRQHText {
   font-weight: bold;
   font-style: roboto;
   font-family: Arial Black;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 35px;
   justify-content: center;
 }
 
-.spinner{
+.spinner {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -225,7 +302,7 @@ export default {
   white-space: normal; /* Allow the text to wrap to the next line */
 }
 .q-table th {
-  background-color: #0F4D91;
+  background-color: #0f4d91;
   color: #fff;
 }
 .q-table tbody tr:nth-child(odd) {
@@ -243,26 +320,26 @@ export default {
 /* ///////////////////////////////////////IRDETAILS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .custom-item-section {
-    border: 1px solid #ffffff; /* Border style */
-    border-radius: 1px; /* Border radius */
-    padding: 5px; /* Optional padding */
+  border: 1px solid #ffffff; /* Border style */
+  border-radius: 1px; /* Border radius */
+  padding: 5px; /* Optional padding */
 }
-.QADialog{
+.QADialog {
   background-color: #ffffff;
   max-height: 100%; /* You can adjust the units based on your preference, 'vw' for viewport width */
   border: 0.2em solid #f3f4f7;
 }
-.QAIR{
+.QAIR {
   height: 85px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QAText{
+.QAText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
@@ -279,38 +356,38 @@ export default {
   font-size: 15px;
   border: 0.1em solid #cacaca;
 }
-.QATextlist{
+.QATextlist {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
 }
 
 /* ///////////////////////////////////////QA INCHARGE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-.QAIC{
+.QAIC {
   height: 230px;
   width: 430px;
   background-color: #ffffff;
   border: 0.2em solid #f3f4f7;
 }
-.QAICHead{
+.QAICHead {
   height: 65px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.5em solid #d5d7da;
 }
-.QAICText{
+.QAICText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
 /* ///////////////////////////////////////RCA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QADeptIn{
+.QADeptIn {
   height: 580px;
   width: 550px;
 }
@@ -326,123 +403,122 @@ export default {
   flex: 1;
   overflow-y: auto;
 }
-.QADHead{
+.QADHead {
   height: 85px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QADText{
+.QADText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
-.QADTestlist{
+.QADTestlist {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
   margin-left: 10px;
 }
-.QADLay{
+.QADLay {
   height: 35px;
   width: 100%;
   border: 0.1em solid #cacaca;
   background-color: #003566;
 }
-.QACon{
+.QACon {
   background-color: #ffffff;
   height: 380px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   width: 550px;
   border: 0.2em solid #f3f4f7;
 }
-.QAHeadCon{
+.QAHeadCon {
   height: 20%;
   width: 100%;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QACText{
+.QACText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
   flex: 1;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
 }
 
 /* ///////////////////////////////////////RCA Submitted////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QARCA{
+.QARCA {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QARText{
+.QARText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
-.QCRCA{
+.QCRCA {
   background-color: #ffffff;
   height: 350px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   width: 550px;
   border: 0.2em solid #f3f4f7;
 }
-.QCRHead{
+.QCRHead {
   height: 80px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QCRText{
+.QCRText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
   flex: 1;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
 }
 
-
 /* ///////////////////////////////////////RCA APPROVED////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QCRCApproved{
+.QCRCApproved {
   background-color: #ffffff;
   height: 460px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   border: 0.2em solid #f3f4f7;
 }
-.QAPApproved{
+.QAPApproved {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QAPText{
+.QAPText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
 }
-.QAPTestlist{
+.QAPTestlist {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
   margin-left: 10px;
 }
-.QAPLay{
+.QAPLay {
   height: 35px;
   width: 100%;
   margin-top: 10px;
@@ -459,23 +535,23 @@ export default {
 
 /* ///////////////////////////////////////QA RECOMMENDATION////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QARECOM{
+.QARECOM {
   background-color: #ffffff;
   height: 200px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   width: 30%;
   border: 0.2em solid #f3f4f7;
 }
-.QAREC{
+.QAREC {
   height: 70px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QARECText{
+.QARECText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
@@ -490,46 +566,46 @@ export default {
 
 /* ///////////////////////////////////////ACTION ITEMS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QAACT{
+.QAACT {
   background-color: #ffffff;
   border: 0.2em solid #f3f4f7;
 }
-.QAACTHead{
+.QAACTHead {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QAACText{
+.QAACText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
 .QAACTABLE {
-    border: 1px solid #ccc; /* Border style */
-    border-radius: 1px; /* Border radius */
-    padding: 10px; /* Optional padding */
-    font-size: 15px;
-    font-style: Arial Black;
+  border: 1px solid #ccc; /* Border style */
+  border-radius: 1px; /* Border radius */
+  padding: 10px; /* Optional padding */
+  font-size: 15px;
+  font-style: Arial Black;
 }
-.QAACTabtext{
+.QAACTabtext {
   font-size: 18px;
 }
 
-.QAACStatus{
+.QAACStatus {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QAACSText{
+.QAACSText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
@@ -538,17 +614,17 @@ export default {
 
 /* ///////////////////////////////////////QA STATUS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-.QAStatus{
+.QAStatus {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.QASText{
+.QASText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
@@ -581,7 +657,7 @@ export default {
   font-style: roboto;
   font-weight: bold;
   font-size: 20px;
-  color: #FFC619;
+  color: #ffc619;
   display: flex;
 }
 .green-text {

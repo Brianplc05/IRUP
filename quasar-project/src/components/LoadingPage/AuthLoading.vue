@@ -1,18 +1,23 @@
 <template>
   <div class="flex flex-center column q-pa-md auth-loading">
-    <q-spinner-pie size="150px" color="primary" />
-    <div class="text-h6 q-mt-md" style="color: #0a335f;">Authenticating, Please wait...</div>
+    <q-spinner-pie
+      :size="$q.screen.lt.md ? '100px' : '150px'"
+      color="primary"
+    />
+    <div class="text-h6 q-mt-md" style="color: #0a335f">
+      Authenticating, Please wait...
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'AuthLoading',
+  name: "AuthLoading",
 
   computed: {
-    ...mapGetters({ getUser: 'ApplyStore/getUser'}),
+    ...mapGetters({ getUser: "ApplyStore/getUser" }),
   },
 
   mounted() {
@@ -21,15 +26,20 @@ export default {
 
   methods: {
     authenticateUser() {
-      setTimeout(() => {
-        if (this.getUser) {
-          this.$router.push('/Dashboard');
-        } else {
-          this.$router.push('/Login');
-        }
-      }, 2000);
-    }
-  }
+      try {
+        setTimeout(() => {
+          if (this.getUser) {
+            this.$router.push("/Dashboard");
+          } else {
+            this.$router.push("/Login");
+          }
+        }, 2000);
+      } catch (error) {
+        console.error("Authentication failed:", error);
+        this.$router.push("/Login");
+      }
+    },
+  },
 };
 </script>
 

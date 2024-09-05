@@ -2,6 +2,10 @@ export default {
   getGoogleUser: [],
   getDash: [],
   getDirector: [],
+  getAssistantQA: [],
+  getAssistantQAForm: [],
+  getAssistantSubCode: [],
+  getAssistantDivision: [],
   getCountSubs: [],
   getIRForm: [],
   getQAForm: [],
@@ -18,6 +22,7 @@ export default {
   departments: [],
   subjectcategory: [],
   subjectname: [],
+  division: [],
   employees: [],
   demerit: [],
 };

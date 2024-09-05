@@ -1,59 +1,118 @@
 <template>
   <div>
-    <div style="height: 100%; width: 100%;">
+    <div style="height: 100%; width: 100%">
       <div class="box">
         <div class="text1">INCIDENT REPORT</div>
-        <div class="text2">Welcome to the Incident Report Management System!
-          Our platform is designed to streamline the process of reporting, tracking,
-          and managing incidents within your organization.
-          Whether it's a safety concern, an operational issue, or any other type of incident,
-          our system ensures that you can efficiently document and resolve these events.</div>
-
-          <div class="btn">
-            <q-btn push label="CREATE REPORT" color="accent" @click="basic = true" class="btn2 text-black shadow-17"></q-btn>
-          </div>
+        <div class="text2">
+          Welcome to the Incident Report Management System! Our platform is
+          designed to streamline the process of reporting, tracking, and
+          managing incidents within your organization. Whether it's a safety
+          concern, an operational issue, or any other type of incident, our
+          system ensures that you can efficiently document and resolve these
+          events.
         </div>
+
+        <div class="btn">
+          <q-btn
+            push
+            label="CREATE REPORT"
+            color="accent"
+            @click="basic = true"
+            class="btn2 text-black shadow-17"
+          ></q-btn>
+        </div>
+      </div>
     </div>
 
-<!-- ////////////////////////////////////////////////////CREATE INCIDENT ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////CREATE INCIDENT ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
     <q-dialog v-model="basic">
-        <q-card class="TOG">
-          <q-item-section class="TGHEAD">
-            <div class="TGTEXT">TERMS OF AGREEMENT</div>
-          </q-item-section>
+      <q-card class="TOG">
+        <q-item-section class="TGHEAD">
+          <div class="TGTEXT">TERMS OF AGREEMENT</div>
+        </q-item-section>
 
-          <q-card-section class="q-pt-none">
-            <p class="TGCONTENT">Incident reports shall undergo analysis. Any person who may be subjected to liability arising from an incident shall be accorded due process. </p>
-          </q-card-section>
+        <q-card-section class="q-pt-none">
+          <p class="TGCONTENT">
+            Incident reports shall undergo analysis. Any person who may be
+            subjected to liability arising from an incident shall be accorded
+            due process.
+          </p>
+        </q-card-section>
 
-          <q-separator style="background-color: #d5d7da; height: 2px; margin: 5px 0;"></q-separator>
-          <q-card-actions align="right">
-            <q-btn push label="Decline" @click="basic = false" color="secondary" v-close-popup></q-btn>
-            <q-btn push label="Accept" @click="Formaccept" color="accent text-black"></q-btn>
-          </q-card-actions>
-        </q-card>
+        <q-separator
+          style="background-color: #d5d7da; height: 2px; margin: 5px 0"
+        ></q-separator>
+        <q-card-actions align="right">
+          <q-btn
+            push
+            label="Decline"
+            @click="basic = false"
+            color="secondary"
+            v-close-popup
+          ></q-btn>
+          <q-btn
+            push
+            label="Accept"
+            @click="Formaccept"
+            color="accent text-black"
+          ></q-btn>
+        </q-card-actions>
+      </q-card>
     </q-dialog>
 
-<!-- ////////////////////////////////////////////////////FORM///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////FORM///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
     <q-dialog full-width full-height v-model="form" persistent>
-        <div class="IRFORM">
-          <q-card-section class="bg-primary text-white" style="display: flex; justify-content: space-between; align-items: center;">
-            <div class="text-h6">INCIDENT REPORT FORM</div>
-            <div>
-            <q-btn push @click="clearIRForm" label="CLOSE" class="bg-info text-white" style="font-weight: bold; width: 80px;" size="14px"></q-btn>
-            <q-btn push @click="handleFormSubmit" label="SAVE" class="bg-accent text-black" style="margin-left: 10px; font-weight: bold; width: 80px;" size="14px"></q-btn>
-            </div>
-          </q-card-section>
+      <div class="IRFORM">
+        <q-card-section
+          class="bg-primary text-white"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div class="text-h6">INCIDENT REPORT FORM</div>
+          <div>
+            <q-btn
+              push
+              @click="clearIRForm"
+              label="CLOSE"
+              class="bg-info text-black"
+              style="font-weight: bold; width: 80px"
+              size="14px"
+            ></q-btn>
+            <q-btn
+              push
+              @click="handleFormSubmit"
+              label="SAVE"
+              class="bg-accent text-black"
+              style="margin-left: 10px; font-weight: bold; width: 80px"
+              size="14px"
+            ></q-btn>
+          </div>
+        </q-card-section>
 
-          <div style="margin-top: 10px;">
-            <div class="bg-primary text-white">
-              <div class="IRID">INFORMANT DETAILS</div>
-            </div>
-            <div class="IRIDC">
-              <q-input square outlined v-model="employeeCode" label="Employee Number" style="margin-left: 5px; width: 49%;"></q-input>
-              <q-input square outlined v-model="deptCode" label="Department Number" style="margin-left: 5px; width: 49%;"></q-input>
-              <!-- <q-select
+        <div style="margin-top: 10px">
+          <div class="bg-primary text-white">
+            <div class="IRID">INFORMANT DETAILS</div>
+          </div>
+          <div class="IRIDC">
+            <q-input
+              square
+              outlined
+              v-model="employeeCode"
+              label="Employee Number"
+              style="margin-left: 5px; width: 49%"
+            ></q-input>
+            <q-input
+              square
+              outlined
+              v-model="deptCode"
+              label="Department Number"
+              style="margin-left: 5px; width: 49%"
+            ></q-input>
+            <!-- <q-select
                   square
                   outlined
                   readonly
@@ -66,17 +125,40 @@
                   :option-value="option => option.DeptCode"
                   style="margin-left: 10px; width: 50%;"
               ></q-select> -->
-            </div>
           </div>
+        </div>
 
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 10px">
           <div class="bg-primary text-white">
             <div class="IRGI">GENERAL INFORMATION</div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+            "
+          >
             <!-- Left Side -->
-            <div style="width: 48%; margin-left: 15px;">
+            <div style="width: 48%; margin-left: 15px">
+              <!-- Subject Select -->
+              <q-select
+                use-input
+                square
+                outlined
+                clearable
+                v-model="SubjectCode"
+                :options="filteredSubjects"
+                @filter="FilterSubIncident"
+                label="REPORTABLE INCIDENT"
+                emit-value
+                map-options
+                :option-value="(option) => option"
+                :option-label="(option) => option.SubjectName"
+                :option-category="(option) => option.RiskDescription"
+                style="margin-top: 15px"
+              />
 
               <q-select
                 use-input
@@ -89,58 +171,59 @@
                 label="RISK CATEGORY"
                 emit-value
                 map-options
-                :option-value="option => option.SubjectCatCode"
-                :option-label="option => option.SubjectCategory"
-                style="margin-top: 15px;"
+                :option-value="(option) => option.DomainCode"
+                :option-label="(option) => option.RiskDomain"
+                style="margin-top: 15px"
               />
 
-              <!-- Subject Select -->
-              <q-select
-                use-input
-                square
-                outlined
-                clearable
-
-                v-model="SubjectCode"
-                :options="filteredSubjects"
-                @filter="FilterSubIncident"
-                label="SUBJECT OF THE INCIDENT"
-                emit-value
-                map-options
-                :option-value="option => option.SubjectCode"
-                :option-label="option => option.SubjectName"
-                :option-category="option => option.SubjectDescription"
-                style="margin-top: 15px;"
-              />
-
-              <q-input
-                v-if="SubjectCode === 'others' && (SubCategory !== null || SubjectCode !== null)"
-                v-model="OtherSubject"
-                label="PLEASE SPECIFY THE SUBJECT OF THE INCIDENT"
-                use-input
-                square
-                outlined
-                autogrow
-                style="margin-top: 15px;"
-              />
-
-              <q-item style="border: 0.2em solid #003566; margin-top: 15px;" v-if="SubjectCode !== 'others'">
+              <q-item
+                style="border: 0.2em solid #003566; margin-top: 15px"
+                v-if="SubjectCode && this.SubjectCode.SubjectCode !== 'others'"
+              >
                 <q-item-section>
                   <q-item-label>
                     <b>DESCRIPTION :</b> {{ selectedDescription }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-select
+                v-if="SubjectCode && this.SubjectCode.SubjectCode === 'others'"
+                use-input
+                square
+                outlined
+                clearable
+                label="DIVISION"
+                v-model="DivisionCode"
+                :options="disDivision"
+                emit-value
+                map-options
+                :option-value="(option) => option.DivisionCode"
+                :option-label="(option) => option.Division"
+                style="margin-top: 15px"
+              />
+
+              <q-input
+                v-if="SubjectCode && this.SubjectCode.SubjectCode === 'others'"
+                v-model="SubjectBriefDes"
+                label="BRIEF DESCRIPTION OF THE INCIDENT"
+                use-input
+                square
+                outlined
+                autogrow
+                style="margin-top: 15px"
+              />
             </div>
 
             <!-- Right Side -->
-            <div style="width: 48%; margin-right: 15px;">
+            <div style="width: 48%; margin-right: 15px">
               <q-input
                 square
                 outlined
+                class="text-uppercase"
                 v-model="SubjectLoc"
                 label="INCIDENT LOCATION"
-                style="margin-top: 15px; width: 100%;"
+                style="margin-top: 15px; width: 100%"
               />
               <q-input
                 v-model="SubjectDate"
@@ -148,17 +231,26 @@
                 outlined
                 clearable
                 label="DATE OF THE INCIDENT"
-                style="margin-top: 15px; width: 100%;"
+                style="margin-top: 15px; width: 100%"
                 @click="showDatePicker = true"
               >
                 <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer" @click="showDatePicker = true" />
+                  <q-icon
+                    name="event"
+                    class="cursor-pointer"
+                    @click="showDatePicker = true"
+                  />
                 </template>
               </q-input>
               <q-dialog v-model="showDatePicker">
                 <q-card>
                   <q-card-section>
-                    <q-date landscape v-model="SubjectDate" @input="updateSubjectDate" :options="dateBeforeOrToday" />
+                    <q-date
+                      landscape
+                      v-model="SubjectDate"
+                      @input="updateSubjectDate"
+                      :options="dateBeforeOrToday"
+                    />
                   </q-card-section>
                 </q-card>
               </q-dialog>
@@ -168,11 +260,15 @@
                 square
                 clearable
                 label="TIME OF THE INCIDENT"
-                style="margin-top: 15px; width: 100%; margin-bottom: 5px;"
+                style="margin-top: 15px; width: 100%; margin-bottom: 5px"
                 @click="showTimePicker = true"
               >
                 <template v-slot:append>
-                  <q-icon name="schedule" class="cursor-pointer" @click="showTimePicker = true" />
+                  <q-icon
+                    name="schedule"
+                    class="cursor-pointer"
+                    @click="showTimePicker = true"
+                  />
                 </template>
               </q-input>
               <q-dialog v-model="showTimePicker">
@@ -186,141 +282,231 @@
           </div>
         </div>
 
-          <div style="margin-top: 10px; ">
-            <div class="bg-primary text-white">
-              <div class="IRND">NARRATIVE DESCRIPTION OF THE INCIDENT</div>
-              <p class="text-center"><em>Narrate exactly how the incident happened (e.g. sequence of events, factors leading to the incident, other persons involved, etc.). Be specific as possible. Statement may be made in English or Filipino.</em></p>
-            </div>
-            <div class="IRNDC">
-              <q-input v-model="SubjectNote" filled type="textarea" label="Note"/>
-            </div>
+        <div style="margin-top: 10px">
+          <div class="bg-primary text-white">
+            <div class="IRND">NARRATIVE DESCRIPTION OF THE INCIDENT</div>
+            <p class="text-center">
+              <em
+                >Narrate exactly how the incident happened (e.g. sequence of
+                events, factors leading to the incident, other persons involved,
+                etc.). Be specific as possible. Statement may be made in English
+                or Filipino.</em
+              >
+            </p>
           </div>
-
-          <div style="margin-top: 10px; ">
-            <div class="bg-primary text-white">
-              <div class="IRND">POSSIBLE CAUSES OF THE INCIDENT</div>
-              <p class="text-center"><em>Possible reason on the perspective of the Informant</em></p>
-            </div>
-            <div class="IRNDC">
-              <q-input v-model="SubjectCause" filled type="textarea" label="Note"/>
-            </div>
-          </div>
-
-          <div style="margin-top: 10px; ">
-            <div class="bg-primary text-white">
-              <div class="IRND">IMMEDIATE RESPONSE</div>
-              <p class="text-center"><em>Action taken by the concerned department or by the Informant to ease the incident.</em></p>
-            </div>
-            <div class="IRNDC">
-              <q-input v-model="SubjectResponse" filled type="textarea" label="Note"/>
-            </div>
+          <div class="IRNDC">
+            <q-input
+              v-model="SubjectNote"
+              filled
+              type="textarea"
+              label="Note"
+            />
           </div>
         </div>
-<!-- ////////////////////////////////////////////////////FORM///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-          <q-dialog v-model="confirm" style="background-color: rgba(0, 0, 0, 0.9);" persistent>
-              <q-card >
-                <q-card-section class="IRCON">
-                  <div class="IRCONText">CONFIRM</div>
-                </q-card-section>
-                <q-card-section>
-                  <div>WOULD YOU LIKE TO SAVE THIS INCIDENT REPORT?</div>
-                </q-card-section>
-                <q-separator style="background-color: #d5d7da; height: 2px; margin: 2px 0;"></q-separator>
-                <q-card-actions align="right">
-                  <q-btn push label="NO" color="secondary" @click="confirm = false" />
-                  <q-btn push label="YES" color="accent" class="text-black" @click="SubmitForm" />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
+        <div style="margin-top: 10px">
+          <div class="bg-primary text-white">
+            <div class="IRND">POSSIBLE CAUSES OF THE INCIDENT</div>
+            <p class="text-center">
+              <em>Possible reason on the perspective of the Informant</em>
+            </p>
+          </div>
+          <div class="IRNDC">
+            <q-input
+              v-model="SubjectCause"
+              filled
+              type="textarea"
+              label="Note"
+            />
+          </div>
+        </div>
 
-<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <div style="margin-top: 10px">
+          <div class="bg-primary text-white">
+            <div class="IRND">IMMEDIATE RESPONSE</div>
+            <p class="text-center">
+              <em
+                >Action taken by the concerned department or by the Informant to
+                ease the incident.</em
+              >
+            </p>
+          </div>
+          <div class="IRNDC">
+            <q-input
+              v-model="SubjectResponse"
+              filled
+              type="textarea"
+              label="Note"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- ////////////////////////////////////////////////////FORM///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-            <q-dialog v-model="showLoading" persistent content-class="non-transparent-dialog">
-              <q-card class="centered-card">
-                <q-card-section>
-                  <div class="spinner-container">
-                    <q-spinner-ios size="100px"></q-spinner-ios>
-                    <div class="please-wait"> SAVING INCIDENT REPORT, PLEASE WAIT...</div>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
+      <q-dialog
+        v-model="confirm"
+        style="background-color: rgba(0, 0, 0, 0.9)"
+        persistent
+      >
+        <q-card>
+          <q-card-section class="IRCON">
+            <div class="IRCONText">CONFIRM</div>
+          </q-card-section>
+          <q-card-section>
+            <div>WOULD YOU LIKE TO SAVE THIS INCIDENT REPORT?</div>
+          </q-card-section>
+          <q-separator
+            style="background-color: #d5d7da; height: 2px; margin: 2px 0"
+          ></q-separator>
+          <q-card-actions align="right">
+            <q-btn push label="NO" color="secondary" @click="confirm = false" />
+            <q-btn
+              push
+              label="YES"
+              color="accent"
+              class="text-black"
+              @click="SubmitForm"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
 
-<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-            <q-dialog v-model="print" style="background-color: rgba(0, 0, 0, 0.9);" persistent>
-              <q-card >
-                <q-card-section class="IRCON">
-                  <div class="IRCONText">PRINT</div>
-                </q-card-section>
-                <q-card-section>
-                  <div>WOULD YOU LIKE TO PRINT THIS INCIDENT REPORT?</div>
-                </q-card-section>
-                <q-separator style="background-color: #d5d7da; height: 2px; margin: 2px 0;"></q-separator>
-                <q-card-actions align="right">
-                  <q-btn push label="NO" color="secondary" @click="printClose" />
-                  <q-btn push label="YES" color="accent" class="text-black" @click="downloadPDF" />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
+      <q-dialog
+        v-model="showLoading"
+        persistent
+        content-class="non-transparent-dialog"
+      >
+        <q-card class="centered-card">
+          <q-card-section>
+            <div class="spinner-container">
+              <q-spinner-ios size="100px"></q-spinner-ios>
+              <div class="please-wait">
+                SAVING INCIDENT REPORT, PLEASE WAIT...
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
-<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-            <q-dialog
-              v-model="pdfdialog"
-              persistent
-              :maximized="maximizedToggle"
-              transition-show="slide-up"
-              transition-hide="slide-down"
-              @show="generatePDF"
-              full-width
-              full-height
-              class="no-scroll-dialog"
+      <q-dialog
+        v-model="print"
+        style="background-color: rgba(0, 0, 0, 0.9)"
+        persistent
+      >
+        <q-card>
+          <q-card-section class="IRCON">
+            <div class="IRCONText">PRINT</div>
+          </q-card-section>
+          <q-card-section>
+            <div>WOULD YOU LIKE TO PRINT THIS INCIDENT REPORT?</div>
+          </q-card-section>
+          <q-separator
+            style="background-color: #d5d7da; height: 2px; margin: 2px 0"
+          ></q-separator>
+          <q-card-actions align="right">
+            <q-btn push label="NO" color="secondary" @click="printClose" />
+            <q-btn
+              push
+              label="YES"
+              color="accent"
+              class="text-black"
+              @click="downloadPDF"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <q-dialog
+        v-model="pdfdialog"
+        persistent
+        :maximized="maximizedToggle"
+        transition-show="slide-up"
+        transition-hide="slide-down"
+        @show="generatePDF"
+        full-width
+        full-height
+        class="no-scroll-dialog"
+      >
+        <q-card class="bg-primary text-white no-scroll-content">
+          <q-bar>
+            <q-space></q-space>
+            <q-btn
+              dense
+              flat
+              icon="minimize"
+              @click="maximizedToggle = false"
+              :disable="!maximizedToggle"
             >
-              <q-card class="bg-primary text-white no-scroll-content">
-                <q-bar>
-                  <q-space></q-space>
-                  <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-                    <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">Minimize</q-tooltip>
-                  </q-btn>
-                  <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-                    <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">Maximize</q-tooltip>
-                  </q-btn>
-                  <q-btn dense flat icon="close" @click="onReset" v-close-popup>
-                    <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-                  </q-btn>
-                </q-bar>
+              <q-tooltip v-if="maximizedToggle" class="bg-white text-primary"
+                >Minimize</q-tooltip
+              >
+            </q-btn>
+            <q-btn
+              dense
+              flat
+              icon="crop_square"
+              @click="maximizedToggle = true"
+              :disable="maximizedToggle"
+            >
+              <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary"
+                >Maximize</q-tooltip
+              >
+            </q-btn>
+            <q-btn dense flat icon="close" @click="onReset" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
 
-                <q-card-section>
-                  <div style="display: flex; justify-content: space-between;">
-                    <div class="text-h6">PDF INCIDENT REPORT FORM</div>
-                    <q-btn push icon="download" class="downbtn bg-accent shadow-5" @click="downloadPDForm">DOWNLOAD</q-btn>
-                  </div>
-                </q-card-section>
+          <q-card-section>
+            <div style="display: flex; justify-content: space-between">
+              <div class="text-h6">PDF INCIDENT REPORT FORM</div>
+              <q-btn
+                push
+                icon="download"
+                class="downbtn bg-accent shadow-5"
+                @click="downloadPDForm"
+                >DOWNLOAD</q-btn
+              >
+            </div>
+          </q-card-section>
 
-                <q-separator style="background-color: #FFC619; height: 2px; margin: 5px 0;"></q-separator>
-                <q-spinner-ios class="spinner" v-if="loading" size="160px" color="accent" style="margin-left: 43.5%; margin-top: 9%;"></q-spinner-ios>
-                <q-card-section v-show="!loading" class="q-pa-md q-gutter-sm flex-center" style="width: 100%; height: 100%;" id="iframeContainer"></q-card-section>
-              </q-card>
-            </q-dialog>
+          <q-separator
+            style="background-color: #ffc619; height: 2px; margin: 5px 0"
+          ></q-separator>
+          <q-spinner-ios
+            class="spinner"
+            v-if="loading"
+            size="160px"
+            color="accent"
+            style="margin-left: 43.5%; margin-top: 9%"
+          ></q-spinner-ios>
+          <q-card-section
+            v-show="!loading"
+            class="q-pa-md q-gutter-sm flex-center"
+            style="width: 100%; height: 100%"
+            id="iframeContainer"
+          ></q-card-section>
+        </q-card>
+      </q-dialog>
 
-<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
     </q-dialog>
 
-    <footer class="footer">
-
-    </footer>
-
+    <footer class="footer"></footer>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import pdfMake from 'pdfmake/build/pdfmake'; // Import pdfmake library
-import pdfFonts from 'pdfmake/build/vfs_fonts'; // Import vfs_fonts module
+import { mapGetters } from "vuex";
+import pdfMake from "pdfmake/build/pdfmake"; // Import pdfmake library
+import pdfFonts from "pdfmake/build/vfs_fonts"; // Import vfs_fonts module
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 
 export default {
   data() {
@@ -338,33 +524,43 @@ export default {
       disEmpDep: [],
       disSubName: [],
       disSubCategory: [],
+      disDivision: [],
       SubjectCatCode: " ",
-      OtherSubject: " ",
+      SubjectBriefDes: " ",
+      DivisionCode: " ",
       SubCategory: null,
       SubjectCode: null,
       SubjectLoc: " ",
+      SubjectDomain: " ",
       SubjectDate: " ",
       SubjectTime: " ",
       SubjectNote: " ",
       SubjectCause: " ",
       SubjectResponse: " ",
       IRNo: [],
-    }
+    };
   },
 
   computed: {
-    ...mapGetters({ getForm: 'ApplyStore/getForm',  getGoogleUser: 'ApplyStore/getGoogleUser',
-                    loggedInUser: 'ApplyStore/getUser', getIRForm: 'ApplyStore/getIRForm',
-                    subjectname: 'ApplyStore/subjectname', subjectcategory: 'ApplyStore/subjectcategory'}),
+    ...mapGetters({
+      getForm: "ApplyStore/getForm",
+      getGoogleUser: "ApplyStore/getGoogleUser",
+      loggedInUser: "ApplyStore/getUser",
+      getIRForm: "ApplyStore/getIRForm",
+      subjectname: "ApplyStore/subjectname",
+      subjectcategory: "ApplyStore/subjectcategory",
+      division: "ApplyStore/division",
+    }),
 
     filteredSubjects() {
-      if (!this.SubCategory) return [];
-      return (this.disSubName || []).filter(subject => subject.SubjectCatCode === this.SubCategory);
+      if (!this.SubCategory) return this.disSubName;
+      return (this.disSubName || []).filter(
+        (subject) => subject.SubjectDomain === this.SubCategory
+      );
     },
 
     selectedDescription() {
-      const selectedOption = this.disSubName.find(option => option.SubjectCode === this.SubjectCode);
-      return selectedOption ? selectedOption.SubjectDescription : '';
+      return this.SubjectCode ? this.SubjectCode.RiskDescription : "";
     },
 
     employeeCode() {
@@ -373,74 +569,60 @@ export default {
 
     deptCode() {
       return this.loggedInUser.DeptCode || this.getGoogleUser.DeptCode;
-    }
-
-    // matchingDepartments() {
-    // return this.disEmpDep.recordsets[0].filter(option => option.EmployeeCode === this.EmployeeCode);
-    // }
+    },
   },
 
   watch: {
-    SubCategory(newVal) {
-      if (!newVal) {
-        this.SubjectCode = null;
+    SubjectCode(newVal) {
+      if (newVal) {
+        const matchedItem = this.disSubCategory.find(
+          (item) => item.DomainCode === newVal.SubjectDomain
+        );
+        return (this.SubCategory = matchedItem.DomainCode);
+      } else {
+        this.SubCategory = "";
+        this.SubjectBriefDes = "";
       }
     },
 
-    SubjectCode(newVal) {
+    SubCategory(newVal) {
       if (!newVal) {
-        this.OtherSubject = '';
+        this.DivisionCode = "";
+        this.SubjectBriefDes = "";
+        this.SubjectCode = "";
       }
     },
   },
 
-
-  // watch: {
-  // EmployeeCode(newValue) {
-  //   if (newValue && this.disEmpDep.recordsets[0]) {
-  //     const matchingDepartment = this.disEmpDep.recordsets[0].find(option => option.EmployeeCode === newValue);
-  //     if (matchingDepartment) {
-  //       this.DeptCode = matchingDepartment.DeptCode;
-  //         }else {
-  //         this.DeptCode = '';
-  //       }
-  //     } else {
-  //       this.DeptCode = '';
-  //     }
-  //   }
-  // },
-
-  created(){
+  created() {
     pdfMake.fonts = {
       Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-MediumItalic.ttf'
-      }
+        normal: "Roboto-Regular.ttf",
+        bold: "Roboto-Medium.ttf",
+        italics: "Roboto-Italic.ttf",
+        bolditalics: "Roboto-MediumItalic.ttf",
+      },
     };
 
     this.getED();
     this.getSN();
     this.getSC();
-    this.$store.dispatch('ApplyStore/initAuth')
+    this.getDisivion();
+    this.$store.dispatch("ApplyStore/initAuth");
   },
 
-
-
-  methods:{
-
-///////////////////////////////////////////////////////////////////////////////THE PROCESS////////////////////////////////////////////////////////////////////////////////////////////
+  methods: {
+    ///////////////////////////////////////////////////////////////////////////////THE PROCESS////////////////////////////////////////////////////////////////////////////////////////////
 
     handleFormSubmit() {
       try {
         if (!this.validateForm()) {
           this.$q.notify({
-            color: 'negative',
-            position: 'top',
-            message: 'REQUIRED ALL FIELDS',
-            icon: 'report_problem',
-            iconColor: 'white',
+            color: "negative",
+            position: "top",
+            message: "REQUIRED ALL FIELDS",
+            icon: "report_problem",
+            iconColor: "white",
             timeout: 1000,
             progress: true,
           });
@@ -463,11 +645,11 @@ export default {
           this.print = true;
         }, 3000);
         this.$q.notify({
-          color: 'positive',
-          position: 'top',
-          message: 'SUCCESSFULLY SENT THE REPORT TO THE QUALITY OFFICER',
-          icon: 'report_problem',
-          iconColor: 'white',
+          color: "positive",
+          position: "top",
+          message: "SUCCESSFULLY SENT THE REPORT TO THE QUALITY OFFICER",
+          icon: "report_problem",
+          iconColor: "white",
           timeout: 2000,
           progress: true,
         });
@@ -487,12 +669,12 @@ export default {
     },
 
     downloadPDForm() {
-        const pdfDef = this.getPdfDefinition();
-        const pdfDocGenerator = pdfMake.createPdf(pdfDef);
-        pdfDocGenerator.download('Incident_Report.pdf');
+      const pdfDef = this.getPdfDefinition();
+      const pdfDocGenerator = pdfMake.createPdf(pdfDef);
+      pdfDocGenerator.download("Incident_Report.pdf");
     },
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     async getED() {
       try {
@@ -521,42 +703,49 @@ export default {
       }
     },
 
-    FilterCategory(val, update) {
-        if (val === "") {
-            update(() => {
-              this.disSubCategory = this.subjectcategory;
-            });
-            return;
-        }
+    async getDisivion() {
+      try {
+        await this.$store.dispatch("ApplyStore/disDivision");
+        this.disDivision = this.division;
+      } catch (error) {
+        console.error("Error Displaying Data:", error);
+      }
+    },
 
+    FilterCategory(val, update) {
+      if (val === "") {
         update(() => {
-            const needle = val.toLowerCase();
-            this.disSubCategory = this.subjectcategory.filter((option) => {
-              return option.SubjectCategory.toLowerCase().indexOf(needle) > -1;
-            });
+          this.disSubCategory = this.subjectcategory;
         });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.disSubCategory = this.subjectcategory.filter((option) => {
+          return option.RiskDomain.toLowerCase().indexOf(needle) > -1;
+        });
+      });
     },
 
     FilterSubIncident(val, update) {
-        if (val === "") {
-            update(() => {
-              this.disSubName = this.subjectname;
-            });
-            return;
-        }
-
+      if (val === "") {
         update(() => {
-            const needle = val.toLowerCase();
-            this.disSubName = this.subjectname.filter((option) => {
-              return option.SubjectName.toLowerCase().indexOf(needle) > -1;
-            });
+          this.disSubName = this.subjectname;
         });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        this.disSubName = this.subjectname.filter((option) => {
+          return option.SubjectName.toLowerCase().indexOf(needle) > -1;
+        });
+      });
     },
 
-
-
-    updateSubjectDate(date){
-      this.SubjectDate = date.toISOString().split('T')[0];
+    updateSubjectDate(date) {
+      this.SubjectDate = date.toISOString().split("T")[0];
       this.showDatePicker = false;
     },
 
@@ -573,17 +762,17 @@ export default {
       );
     },
 
-    printClose(){
+    printClose() {
       this.form = false;
       this.print = false;
     },
 
-    Formaccept(){
-      this.basic= false;
+    Formaccept() {
+      this.basic = false;
       this.form = true;
     },
 
-    clearIRForm(){
+    clearIRForm() {
       this.form = false;
       this.clearForm();
     },
@@ -591,349 +780,410 @@ export default {
     async addInc() {
       try {
         const formData = {
-            EmployeeCode: this.employeeCode,
-            DeptCode: this.deptCode,
-            SubjectCode: this.SubjectCode,
-            SubjectDate: this.SubjectDate,
-            SubjectTime: this.SubjectTime,
-            SubjectLoc: this.SubjectLoc,
-            SubjectNote: this.SubjectNote,
-            SubjectCause: this.SubjectCause,
-            SubjectResponse: this.SubjectResponse
-          };
+          EmployeeCode: this.employeeCode,
+          DeptCode: this.deptCode,
+          SubjectCode: this.SubjectCode.SubjectCode,
+          SubjectDate: this.SubjectDate,
+          SubjectTime: this.SubjectTime,
+          SubjectLoc: this.SubjectLoc,
+          SubjectNote: this.SubjectNote,
+          SubjectCause: this.SubjectCause,
+          SubjectResponse: this.SubjectResponse,
+        };
 
-          // Conditionally add OtherSubject if SubjectCode is "others"
-          if (this.SubjectCode === "others") {
-            formData.OtherSubject = this.OtherSubject;
-            formData.SubjectCode = null; // Set SubjectCode to null
-          }
-
-        console.log(formData);
-        const response = await this.$store.dispatch("ApplyStore/addIReport", formData);
-        console.log(response);
-        console.log("DATA INSERTED SUCCESSFULLY");
+        // Conditionally add SubjectBriefDes if SubjectCode is "others"
+        if (this.SubjectCode.SubjectCode === "others") {
+          formData.SubjectBriefDes = this.SubjectBriefDes;
+          formData.SubjectCode = this.SubjectCode.SubjectCode; // Set SubjectCode to null
+          formData.DivisionCode = this.DivisionCode;
+        }
+        const response = await this.$store.dispatch(
+          "ApplyStore/addIReport",
+          formData
+        );
       } catch (error) {
         console.error("Error inserting data:", error);
       }
     },
 
-  validateForm() {
-    return (
-      this.SubjectLoc !== " " &&
-      this.SubjectDate !== " " &&
-      this.SubjectTime !== " " &&
-      this.SubjectNote !== " " &&
-      this.SubjectCause !== " " &&
-      this.SubjectResponse !== " "
-    );
-  },
+    validateForm() {
+      return (
+        this.SubjectLoc !== " " &&
+        this.SubjectDate !== " " &&
+        this.SubjectTime !== " " &&
+        this.SubjectNote !== " " &&
+        this.SubjectCause !== " " &&
+        this.SubjectResponse !== " "
+      );
+    },
 
-  clearForm() {
-      this.SubjectCode = '';
-      this.OtherSubject = '';
-      this.SubCategory = '';
-      this.SubjectDate = '';
-      this.SubjectTime = '';
-      this.SubjectLoc = '';
-      this.SubjectNote = '';
-      this.SubjectCause = ' ';
-      this.SubjectResponse = ' ';
-  },
+    clearForm() {
+      this.SubjectCode = "";
+      this.SubjectBriefDes = "";
+      this.SubCategory = "";
+      this.SubjectDate = "";
+      this.SubjectTime = "";
+      this.SubjectLoc = "";
+      this.SubjectNote = "";
+      this.SubjectCause = " ";
+      this.SubjectResponse = " ";
+    },
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    FormatDate(SubjectDate) {
+      const date = new Date(SubjectDate);
+      const options = { year: "numeric", month: "short", day: "2-digit" };
+      const formattedDate = date
+        .toLocaleDateString("en-US", options)
+        .toUpperCase()
+        .replace(/\s/g, " ");
+      return formattedDate;
+    },
 
-  FormatDate(SubjectDate){
-  const date = new Date(SubjectDate);
-  const options = { year: 'numeric', month: 'short', day: '2-digit' };
-  const formattedDate = date.toLocaleDateString('en-US', options).toUpperCase().replace(/\s/g, ' ');
-  return formattedDate;
-  },
+    FormatTime(SubjectTime) {
+      const date = new Date(SubjectTime);
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
 
-  FormatTime(SubjectTime) {
-  const date = new Date(SubjectTime);
-  let hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      const formattedTime = `${hours}:${minutes} ${ampm}`;
 
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  const formattedTime = `${hours}:${minutes} ${ampm}`;
+      return formattedTime;
+    },
 
-  return formattedTime;
-  },
+    generatePDF() {
+      this.loading = true; // Set loading state to true
 
-  generatePDF() {
-    this.loading = true; // Set loading state to true
+      const pdfDef = this.getPdfDefinition();
 
-    const pdfDef = this.getPdfDefinition();
+      const pdfDocGenerator = pdfMake.createPdf(pdfDef);
+      pdfDocGenerator.getDataUrl((dataUrl) => {
+        const targetElement = document.querySelector("#iframeContainer");
+        if (targetElement) {
+          const iframe = document.createElement("iframe");
+          iframe.src = dataUrl;
+          iframe.height = "100%";
+          iframe.width = "100%";
+          iframe.style.cssText = "z-index: 1; position: relative;";
+          targetElement.innerHTML = "";
+          targetElement.appendChild(iframe);
 
-    const pdfDocGenerator = pdfMake.createPdf(pdfDef);
-    pdfDocGenerator.getDataUrl((dataUrl) => {
-      const targetElement = document.querySelector('#iframeContainer');
-      if (targetElement) {
-        const iframe = document.createElement('iframe');
-        iframe.src = dataUrl;
-        iframe.height = '100%';
-        iframe.width = '100%';
-        iframe.style.cssText = 'z-index: 1; position: relative;';
-        targetElement.innerHTML = '';
-        targetElement.appendChild(iframe);
-
-        // Hide loading indicator after 2000 milliseconds
-        setTimeout(() => {
-          this.loading = false; // Clear loading state after 2000 milliseconds
-        }, 4000);
-      }
-    });
-  },
-
-
-  getPdfDefinition() {
-    const IRNo = this.getIRForm[0].IRNo; // Accessing IRNo from the getIRForm object
-    const SubjectName = this.getIRForm[0].SubjectName;
-    const SubjectLoc = this.getIRForm[0].SubjectLoc;
-    const SubjectDate = this.FormatDate(this.getIRForm[0].SubjectDate); // Formatting SubjectDate
-    const SubjectTime = this.FormatTime(this.getIRForm[0].SubjectTime); // Formatting SubjectTime
-    const SubjectNote = this.getIRForm[0].SubjectNote;
-    const SubjectCause = this.getIRForm[0].SubjectCause;
-    const SubjectResponse = this.getIRForm[0].SubjectResponse;
-
-
-    return {
-      content: [
-        {
-          text: `IRNo.: ${IRNo}`,
-          alignment: 'right',
-          style: 's1'
-        },
-        {
-          text: ['UNIVERSITY OF THE EAST\n', 'RAMON MAGSAYSAY MEMORIAL MEDICAL CENTER'],
-          style: 'header',
-          alignment: 'center'
-        },
-        {
-          text: '#64 Aurora Boulevard, Brgy. Dona Imelda, Quezon City, 1113 Philippines\n',
-          bold: false,
-          alignment: 'center',
-          style: 's2'
-        },
-        {
-          text: 'INCIDENT REPORT FORM',
-          bold: true,
-          alignment: 'center',
-          style: 's3'
-        },
-        {
-          text: 'Instructions:',
-          bold: true,
-        },
-        {
-          text: ['Incident reports shall undergo analysis. Any person who may be subjected to liability arising from an incident shall be accorded due process.'
-          ],
-          style: 's4',
-        },
-        {
-          style: 'tableExample',
-          table: {
-            widths: ['*'],
-            body: [
-              ['GENERAL INFORMATION'],
-            ]
-          }
-        },
-        {
-          style: 'table1',
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: `Subject of the incident: ${SubjectName}` }],
-            ]
-          }
-        },
-        {
-          style: 'table1',
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: `Location of the incident: ${SubjectLoc}` }],
-            ]
-          }
-        },
-        {
-          style: 'table1',
-          table: {
-            widths: ['*', '*'],
-            body: [
-              [`Date of the incident: ${SubjectDate}`, { text: `Time of the incident: ${SubjectTime}`, noWrap: true }],
-            ]
-          }
-        },
-        {
-          style: 'tableExample',
-          table: {
-            widths: ['*'],
-            body: [
-              ['NARRATIVE DESCRIPTION OF THE INCIDENT'],
-            ]
-          }
-        },
-        {
-          style: 's5',
-          table: {
-            widths: ['*'],
-            body: [
-              ['Narrate exactly how the incident happened (e.g. sequence of events, factors leading to the incident, other persons involved, etc.). Be specific as possible. Statement may be made in English or Filipino'],
-            ]
-          }
-        },
-        {
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 1, 1, 0] }],
-              [{ text: `${SubjectNote}`, style: 's6', fillColor: '#FFFFFF', border: [1, 0, 1, 0] }],
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 0, 1, 1] }],
-            ]
-          }
-        },
-        {
-          style: 'tableExample',
-          table: {
-            widths: ['*'],
-            body: [
-              ['POSSIBLE CAUSES OF THE INCIDENT'],
-            ]
-          }
-        },
-        {
-          style: 's5',
-          table: {
-            widths: ['*'],
-            body: [
-              ['Possible reason on the perspective of the Informant'],
-            ]
-          }
-        },
-        {
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 1, 1, 0] }],
-              [{ text: `${SubjectCause}`, style: 's6', fillColor: '#FFFFFF', border: [1, 0, 1, 0] }],
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 0, 1, 1] }],
-            ]
-          }
-        },
-        {
-          style: 'tableExample',
-          table: {
-            widths: ['*'],
-            body: [
-              ['IMMEDIATE RESPONSE'],
-            ]
-          }
-        },
-        {
-          style: 's5',
-          table: {
-            widths: ['*'],
-            body: [
-              ['Action taken by the concerned department or by the Informant to ease the incident.'],
-            ]
-          }
-        },
-        {
-          table: {
-            widths: ['*'],
-            body: [
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 1, 1, 0] }],
-              [{ text: `${SubjectResponse}`, style: 's6', fillColor: '#FFFFFF', border: [1, 0, 1, 0] }],
-              [{ text: '', style: 's1', fillColor: '#FFFFFF',  border: [1, 0, 1, 1] }],
-            ]
-          }
+          // Hide loading indicator after 2000 milliseconds
+          setTimeout(() => {
+            this.loading = false; // Clear loading state after 2000 milliseconds
+          }, 4000);
         }
-      ],
+      });
+    },
 
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'center'
-        },
-        s1: {
-          fontSize: 8,
-          bold: true,
-          alignment: 'right'
-        },
-        s2: {
-          fontSize: 10,
-          margin: [0, 0, 0, 20]
-        },
-        s3: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'center',
-          margin: [5, 0, 0, 0]
-        },
-        s4: {
-          fontSize: 8,
-          margin: [0, 0, 0, 10],
-        },
-        s5: {
-          fontSize: 7,
-          italics: true,
-          alignment: 'center',
-          fillColor: '#CCCCCC'
-        },
-        s6: {
-          fontSize: 10,
-          bold: true,
-          alignment: 'left'
-        },
-        tableExample: {
-          bold: true,
-          fontSize: 11,
-          alignment: 'center',
-          fillColor: '#CCCCCC'
-        },
-        table1: {
-          bold: true,
-          fontSize: 10,
-          alignment: 'left',
-        }
-      }
-    };
-  },
+    getPdfDefinition() {
+      const IRNo = this.getIRForm[0].IRNo; // Accessing IRNo from the getIRForm object
+      const SubjectName = this.getIRForm[0].SubjectName;
+      const SubjectLoc = this.getIRForm[0].SubjectLoc;
+      const SubjectDate = this.FormatDate(this.getIRForm[0].SubjectDate); // Formatting SubjectDate
+      const SubjectTime = this.FormatTime(this.getIRForm[0].SubjectTime); // Formatting SubjectTime
+      const SubjectNote = this.getIRForm[0].SubjectNote;
+      const SubjectCause = this.getIRForm[0].SubjectCause;
+      const SubjectResponse = this.getIRForm[0].SubjectResponse;
 
-  onReset(){
+      return {
+        content: [
+          {
+            text: `IRNo.: ${IRNo}`,
+            alignment: "right",
+            style: "s1",
+          },
+          {
+            text: [
+              "UNIVERSITY OF THE EAST\n",
+              "RAMON MAGSAYSAY MEMORIAL MEDICAL CENTER",
+            ],
+            style: "header",
+            alignment: "center",
+          },
+          {
+            text: "#64 Aurora Boulevard, Brgy. Dona Imelda, Quezon City, 1113 Philippines\n",
+            bold: false,
+            alignment: "center",
+            style: "s2",
+          },
+          {
+            text: "INCIDENT REPORT FORM",
+            bold: true,
+            alignment: "center",
+            style: "s3",
+          },
+          {
+            text: "Instructions:",
+            bold: true,
+          },
+          {
+            text: [
+              "Incident reports shall undergo analysis. Any person who may be subjected to liability arising from an incident shall be accorded due process.",
+            ],
+            style: "s4",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*"],
+              body: [["GENERAL INFORMATION"]],
+            },
+          },
+          {
+            style: "table1",
+            table: {
+              widths: ["*"],
+              body: [[{ text: `Subject of the incident: ${SubjectName}` }]],
+            },
+          },
+          {
+            style: "table1",
+            table: {
+              widths: ["*"],
+              body: [[{ text: `Location of the incident: ${SubjectLoc}` }]],
+            },
+          },
+          {
+            style: "table1",
+            table: {
+              widths: ["*", "*"],
+              body: [
+                [
+                  `Date of the incident: ${SubjectDate}`,
+                  {
+                    text: `Time of the incident: ${SubjectTime}`,
+                    noWrap: true,
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*"],
+              body: [["NARRATIVE DESCRIPTION OF THE INCIDENT"]],
+            },
+          },
+          {
+            style: "s5",
+            table: {
+              widths: ["*"],
+              body: [
+                [
+                  "Narrate exactly how the incident happened (e.g. sequence of events, factors leading to the incident, other persons involved, etc.). Be specific as possible. Statement may be made in English or Filipino",
+                ],
+              ],
+            },
+          },
+          {
+            table: {
+              widths: ["*"],
+              body: [
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 1, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: `${SubjectNote}`,
+                    style: "s6",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 1],
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*"],
+              body: [["POSSIBLE CAUSES OF THE INCIDENT"]],
+            },
+          },
+          {
+            style: "s5",
+            table: {
+              widths: ["*"],
+              body: [["Possible reason on the perspective of the Informant"]],
+            },
+          },
+          {
+            table: {
+              widths: ["*"],
+              body: [
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 1, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: `${SubjectCause}`,
+                    style: "s6",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 1],
+                  },
+                ],
+              ],
+            },
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*"],
+              body: [["IMMEDIATE RESPONSE"]],
+            },
+          },
+          {
+            style: "s5",
+            table: {
+              widths: ["*"],
+              body: [
+                [
+                  "Action taken by the concerned department or by the Informant to ease the incident.",
+                ],
+              ],
+            },
+          },
+          {
+            table: {
+              widths: ["*"],
+              body: [
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 1, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: `${SubjectResponse}`,
+                    style: "s6",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 0],
+                  },
+                ],
+                [
+                  {
+                    text: "",
+                    style: "s1",
+                    fillColor: "#FFFFFF",
+                    border: [1, 0, 1, 1],
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            alignment: "center",
+          },
+          s1: {
+            fontSize: 8,
+            bold: true,
+            alignment: "right",
+          },
+          s2: {
+            fontSize: 10,
+            margin: [0, 0, 0, 20],
+          },
+          s3: {
+            fontSize: 18,
+            bold: true,
+            alignment: "center",
+            margin: [5, 0, 0, 0],
+          },
+          s4: {
+            fontSize: 8,
+            margin: [0, 0, 0, 10],
+          },
+          s5: {
+            fontSize: 7,
+            italics: true,
+            alignment: "center",
+            fillColor: "#CCCCCC",
+          },
+          s6: {
+            fontSize: 10,
+            bold: true,
+            alignment: "left",
+          },
+          tableExample: {
+            bold: true,
+            fontSize: 11,
+            alignment: "center",
+            fillColor: "#CCCCCC",
+          },
+          table1: {
+            bold: true,
+            fontSize: 10,
+            alignment: "left",
+          },
+        },
+      };
+    },
+
+    onReset() {
       this.form = false;
       this.pdfdialog = false;
       this.maximizedToggle = false;
       this.IRNo = [];
-  },
+    },
 
-  mounted() {
-    this.generatePDF(); // Call the method to generate and display the PDF when the component is mounted
-  }
-
+    mounted() {
+      this.generatePDF(); // Call the method to generate and display the PDF when the component is mounted
+    },
   },
-}
+};
 </script>
 
 <style>
-
 .box {
   height: 100%;
   width: 50%;
   background-color: #ffffff;
   align-content: center;
   margin-left: 27%;
-  margin-top: 15PX;
-  margin-bottom: 15PX;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.text1{
+.text1 {
   margin-top: 50px;
   font-weight: bold;
   font-family: Arial Black;
@@ -942,7 +1192,7 @@ export default {
   font-size: 50px;
   justify-content: center;
 }
-.text2{
+.text2 {
   margin-top: 30px;
   display: flex;
   color: #000000;
@@ -950,11 +1200,11 @@ export default {
   text-align: center;
   padding: 25px;
 }
-.btn{
+.btn {
   margin-top: 8%;
   margin-bottom: 8%;
 }
-.btn2{
+.btn2 {
   height: 50px;
   width: 40%;
   font-size: 15px;
@@ -973,7 +1223,7 @@ export default {
  */
 
 .footer {
-  background-color: #FFC619;
+  background-color: #ffc619;
   padding: 10px;
   text-align: center;
   position: fixed;
@@ -984,31 +1234,31 @@ export default {
 
 /* <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> */
 
-.IRIMG{
+.IRIMG {
   width: 490px; /* Example width */
   height: 280px; /* Maintain aspect ratio */
   margin-top: 50px; /* Example margin bottom */
   margin-right: 5px;
 }
-.IRBTN{
+.IRBTN {
   margin-top: 360px;
   height: 50px;
   width: 400px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #FFC619;
-  font-family:Arial Black;
+  background-color: #ffc619;
+  font-family: Arial Black;
   position: fixed;
 }
 
 /* <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> */
 
-.TOG{
+.TOG {
   background-color: #ffffff;
   height: 255px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   border: 0.2em solid #f3f4f7;
 }
-.TGHEAD{
+.TGHEAD {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1018,15 +1268,15 @@ export default {
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.TGTEXT{
+.TGTEXT {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 30px;
   padding: 5px;
   justify-content: center;
 }
-.TGCONTENT{
+.TGCONTENT {
   display: flex;
   font-size: 17px;
   margin-top: 15px;
@@ -1034,13 +1284,13 @@ export default {
 }
 /* ////////////////////////////////////////////////IRFORM///////////////////////////////////////////////////// */
 
-.IRFORM{
+.IRFORM {
   background-color: white;
   height: 650px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   width: 100%;
   border: 0.2em solid #f3f4f7;
 }
-.IRHEAD{
+.IRHEAD {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1049,56 +1299,56 @@ export default {
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
 }
-.text-h6{
+.text-h6 {
   font-weight: bold;
   font-family: Arial Black;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 30px;
 }
 /* ......................................INFORMANT CONTENT ..................................... */
-.IRID{
+.IRID {
   font-weight: bold;
   /* display: flex; */
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
   display: none;
 }
 .IRIDC {
-    /* display: flex; */
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    height: 80px;
-    display: none;
+  /* display: flex; */
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  height: 80px;
+  display: none;
 }
 /* ......................................GENERAL CONTENT ..................................... */
-.IRGI{
+.IRGI {
   font-weight: bold;
   display: flex;
   padding: 10px;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
 }
 .IRGC {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 5px;
 }
 .IRGCC {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
 }
 /* ......................................NOTE CONTENT ..................................... */
-.IRND{
+.IRND {
   font-weight: bold;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 20px;
   justify-content: center;
 }
@@ -1109,17 +1359,17 @@ export default {
   margin-bottom: 20px;
 }
 /* ......................................SAVE CONTENT ..................................... */
-.IRCON{
+.IRCON {
   height: 75px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;
 }
-.IRCONText{
+.IRCONText {
   font-weight: bold;
   font-style: roboto;
   display: flex;
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   justify-content: center;
 }
@@ -1128,10 +1378,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.downbtn{
+.downbtn {
   padding: 5px;
   width: 15%;
-  color:  #003566;
+  color: #003566;
   font-weight: bold;
 }
 .no-scroll-dialog .q-dialog__inner {
@@ -1149,7 +1399,7 @@ export default {
   flex: 1;
   overflow: auto;
 }
- /* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .centered-card {
   width: 450px;
@@ -1173,9 +1423,7 @@ export default {
   font-style: roboto;
   font-weight: bold;
   font-size: 20px;
-  color: #FFC619;
+  color: #ffc619;
   display: flex;
 }
 </style>
-
-

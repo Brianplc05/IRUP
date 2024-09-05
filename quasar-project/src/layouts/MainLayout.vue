@@ -1,33 +1,64 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header style="height: auto; background-color: #003566;">
+    <q-header style="height: auto; background-color: #003566">
       <q-toolbar class="container">
         <div class="dis1">
-          <q-avatar size="80px" @click="showMenu = true" style="border: 2px solid #FFC619;">
-            <img v-if="loggedInUser" :src="avatarUrl + loggedInUser.EmployeeCode" />
+          <q-avatar
+            size="80px"
+            @click="showMenu = true"
+            style="border: 2px solid #ffc619"
+          >
+            <img
+              v-if="loggedInUser"
+              :src="avatarUrl + loggedInUser.EmployeeCode"
+            />
           </q-avatar>
-          <div class="labelhead" v-if="loggedInUser">WELCOME, {{ loggedInUser.FirstName }}</div>
+          <div class="labelhead" v-if="loggedInUser">
+            WELCOME, {{ loggedInUser.FirstName }}
+          </div>
 
           <!-- Q-Menu for the prompt -->
           <q-menu v-model="showMenu">
             <q-card class="custom-card">
-              <div class="text-h6" style="margin-left: 10px; margin-top: 15px; color: #003566;">PROFILE</div>
-              <div class="column items-start" style="margin-top: 15px; margin-left: 10px;">
+              <div
+                class="text-h6"
+                style="margin-left: 10px; margin-top: 15px; color: #003566"
+              >
+                PROFILE
+              </div>
+              <div
+                class="column items-start"
+                style="margin-top: 15px; margin-left: 10px"
+              >
                 <div class="col1">
-                  <q-icon name="person" size="36px"/>
-                  <p class="item-label" v-if="loggedInUser">{{ loggedInUser.EmployeeCode }}</p>
+                  <q-icon name="person" size="36px" />
+                  <p class="item-label" v-if="loggedInUser">
+                    {{ loggedInUser.EmployeeCode }}
+                  </p>
                 </div>
                 <div class="col1">
-                  <q-icon name="assignment_ind" size="36px"/>
-                  <p class="item-label" v-if="loggedInUser">{{ loggedInUser.FullName }}</p>
+                  <q-icon name="assignment_ind" size="36px" />
+                  <p class="item-label" v-if="loggedInUser">
+                    {{ loggedInUser.FullName }}
+                  </p>
                 </div>
                 <div class="col1">
-                  <q-icon name="business" size="36px"/>
-                  <p class="item-label" v-if="loggedInUser">{{ loggedInUser.Department_Description }}</p>
+                  <q-icon name="business" size="36px" />
+                  <p class="item-label" v-if="loggedInUser">
+                    {{ loggedInUser.Department_Description }}
+                  </p>
                 </div>
               </div>
               <q-card-actions align="right" class="custom-card-actions">
-                <q-btn push label="LOGOUT" @click="logout" color="secondary" v-close-popup class="button1"></q-btn>
+                <q-btn
+                  push
+                  icon="exit_to_app"
+                  label="LOGOUT"
+                  @click="logout"
+                  color="secondary"
+                  v-close-popup
+                  class="button1"
+                ></q-btn>
               </q-card-actions>
             </q-card>
           </q-menu>
@@ -40,8 +71,7 @@
     </q-header>
 
     <q-list>
-      <q-item-label>
-      </q-item-label>
+      <q-item-label> </q-item-label>
     </q-list>
 
     <q-page-container>
@@ -50,9 +80,8 @@
   </q-layout>
 </template>
 
-
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -60,53 +89,46 @@ export default {
       FullName: "",
       FirstName: "",
       showMenu: false,
-      avatarUrl: process.env.IMAGE_REST_API_URL
+      avatarUrl: process.env.IMAGE_REST_API_URL,
     };
   },
 
   created() {
-    this.$store.dispatch('ApplyStore/initAuth')
-      .catch(error => {
-        console.error('Error initializing authentication:', error);
-      });
+    this.$store.dispatch("ApplyStore/initAuth").catch((error) => {
+      console.error("Error initializing authentication:", error);
+    });
   },
 
   computed: {
-    ...mapGetters({ loggedInUser: 'ApplyStore/getUser' }),
+    ...mapGetters({ loggedInUser: "ApplyStore/getUser" }),
     isUserLoggedIn() {
       return !!this.loggedInUser && !!this.loggedInUser.FullName;
     },
   },
 
   methods: {
-  ...mapActions('ApplyStore', ['logoutAction', 'googlelogoutAction']),
+    ...mapActions("ApplyStore", ["logoutAction", "googlelogoutAction"]),
 
-  async logout() {
-    try {
+    async logout() {
+      try {
         const UERMEmail = this.loggedInUser.UERMEmail;
-        console.log('etong email ay:', UERMEmail);
-
-        if (UERMEmail !== null && typeof UERMEmail !== 'undefined') {
+        if (UERMEmail !== null && typeof UERMEmail !== "undefined") {
           await this.googlelogoutAction();
-          this.$router.push('/google-authlogout');
+          this.$router.push("/google-authlogout");
         } else {
           await this.logoutAction();
-          this.$router.push('/IRLogout');
+          this.$router.push("/IRLogout");
         }
       } catch (error) {
-        console.error('Error logging out:', error);
+        console.error("Error logging out:", error);
       }
     },
-  }
-
-
-
+  },
 };
 </script>
 
-
 <style>
-.container{
+.container {
   height: auto;
   display: flex;
   justify-content: space-between;
@@ -120,7 +142,7 @@ export default {
   cursor: pointer;
 }
 .labelhead {
-  color: #FFC619;
+  color: #ffc619;
   font-size: 25px;
   margin-left: 15px;
   font-family: Arial Black;
@@ -139,10 +161,10 @@ export default {
   border-top: 2px solid #d5d7da;
   margin-top: auto;
 }
-.col1{
+.col1 {
   margin-top: 10px;
   display: flex;
-  color: #0F4D91;
+  color: #0f4d91;
   justify-content: space-between;
 }
 .item-label {
@@ -153,13 +175,13 @@ export default {
   margin-left: 10px;
   text-align: center;
 }
-.button1{
+.button1 {
   width: 350px;
   font-size: 15px;
   box-shadow: #000000;
 }
 /* --------------------------------------------------------------------------------------------- */
-.dis2{
+.dis2 {
   width: 225px;
   height: 90px;
   padding: 0 10px; /* Optional: Add padding for spacing */
