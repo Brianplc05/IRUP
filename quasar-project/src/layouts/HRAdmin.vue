@@ -28,7 +28,7 @@
       bordered
       class="custom-drawer"
     >
-      <q-list v-if="isUserLoggedIn">
+      <q-list v-if="isUserLoggedIn" class="custom-list">
         <q-item class="custom-item">
           <q-item-section>
             <q-item-label>
@@ -46,9 +46,8 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
         <EssentialLink
-          v-for="item in list"
+          v-for="item in getAccessModule"
           :key="item.title"
           :title="item.title"
           :link="item.link"
@@ -56,31 +55,45 @@
           :isSelected="selectedLink === item.link"
           @select="navigateTo(item.link)"
         />
-
-        <q-expansion-item class="custom-expansion-item">
-          <template v-slot:header>
-            <div class="icon-above-text">
-              <q-icon name="dvr" size="35px" />
-              <div>HR MODULE</div>
-            </div>
-          </template>
-          <EssentialLink
-            v-for="hrItem in hrList"
-            :key="hrItem.title"
-            :title="hrItem.title"
-            :link="hrItem.link"
-            :icon="hrItem.icon"
-            :isSelected="selectedLink === hrItem.link"
-            @select="navigateTo(hrItem.link)"
-          />
-        </q-expansion-item>
+        <!-- <q-expansion-item class="custom-expansion-item">
+      <template v-slot:header>
+        <div class="icon-above-text">
+          <q-icon name="dvr" size="35px" />
+          <div>HR MODULE</div>
+        </div>
+      </template>
+      <EssentialLink
+        v-for="hrItem in hrList"
+        :key="hrItem.title"
+        :title="hrItem.title"
+        :link="hrItem.link"
+        :icon="hrItem.icon"
+        :isSelected="selectedLink === hrItem.link"
+        @select="navigateTo(hrItem.link)"
+      />
+    </q-expansion-item> -->
       </q-list>
+
+      <footer class="footer">
+        <img
+          src="../assets/UERM Logos.png"
+          class="q-ma-s"
+          style="width: 45%; height: 40%"
+        />
+        <img
+          src="../assets/IRLogo.png"
+          class="q-ma-s"
+          style="width: 25%; height: 40%; margin-top: 5%"
+        />
+      </footer>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
+
+  <footer class="footer"></footer>
 </template>
 
 <script>
@@ -96,8 +109,8 @@ export default {
       leftDrawerOpen: false,
       selectedLink: null,
       showTable: true,
-      list: this.getList(),
-      hrList: this.getHR(),
+      // list: this.getList(),
+      // hrList: this.getHR(),
       avatarUrl: process.env.IMAGE_REST_API_URL,
     };
   },
@@ -107,6 +120,13 @@ export default {
   },
 
   created() {
+    const savedModules = localStorage.getItem("accessModules");
+    if (savedModules) {
+      // Commit the saved modules to the Vuex state
+      this.$store.commit("ApplyStore/SET_MODULES", JSON.parse(savedModules));
+    }
+
+    // Initialize authentication
     this.$store.dispatch("ApplyStore/initAuth").catch((error) => {
       console.error("Error initializing authentication:", error);
     });
@@ -119,7 +139,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ loggedInUser: "ApplyStore/getUser" }),
+    ...mapGetters({
+      loggedInUser: "ApplyStore/getUser",
+      getAccessModule: "ApplyStore/getAccessModule",
+    }),
     isUserLoggedIn() {
       return !!this.loggedInUser && !!this.loggedInUser.FullName;
     },
@@ -131,6 +154,7 @@ export default {
     async logout() {
       try {
         await this.logoutAction();
+        localStorage.removeItem("accessModules"); // Clear the saved modules on logout
         this.$router.push("/LogoutPage");
       } catch (error) {
         console.error("Error logging out:", error);
@@ -141,55 +165,55 @@ export default {
       this.leftDrawerOpen = !this.leftDrawerOpen;
     },
 
-    getList() {
-      return [
-        {
-          title: "DASHBOARD",
-          icon: "dashboard",
-          link: "#/Dashboard",
-        },
-        {
-          title: "REPORT MODULE",
-          icon: "summarize",
-          link: "#/ReportTable",
-        },
-        {
-          title: "ASSISTANT QA MODULE",
-          icon: "inventory",
-          link: "#/AssistantQATable",
-        },
-        {
-          title: "QA MODULE",
-          icon: "assignment",
-          link: "#/QATable",
-        },
-        {
-          title: "DIRECTOR MODULE",
-          icon: "article",
-          link: "#/DirectorTable",
-        },
-        {
-          title: "AUDIT MODULE",
-          icon: "assessment",
-          link: "#/AuditTable",
-        },
-      ];
-    },
+    // getList() {
+    //   return [
+    //     {
+    //       title: "DASHBOARD",
+    //       icon: "dashboard",
+    //       link: "#/Dashboard",
+    //     },
+    //     {
+    //       title: "REPORT MODULE",
+    //       icon: "summarize",
+    //       link: "#/ReportTable",
+    //     },
+    //     {
+    //       title: "ASSISTANT QA MODULE",
+    //       icon: "inventory",
+    //       link: "#/AssistantQATable",
+    //     },
+    //     {
+    //       title: "QA MODULE",
+    //       icon: "assignment",
+    //       link: "#/QATable",
+    //     },
+    //     {
+    //       title: "DIRECTOR MODULE",
+    //       icon: "article",
+    //       link: "#/DirectorTable",
+    //     },
+    //     {
+    //       title: "AUDIT MODULE",
+    //       icon: "assessment",
+    //       link: "#/AuditTable",
+    //     },
+    //     {
+    //       title: "HR ADMIN REPORT",
+    //       icon: "chrome_reader_mode",
+    //       link: "#/HRTable",
+    //     },
+    //   ];
+    // },
 
-    getHR() {
-      return [
-        {
-          title: "HR ADMIN REPORT",
-          icon: "chrome_reader_mode",
-          link: "#/HRTable",
-        },
-        // {
-        //   title: 'EMPLOYEE OFFENSES',
-        //   icon: 'summarize',
-        //   link: '#/EmployeeTab',
-        // },
-      ];
-    },
+    // getHR() {
+    //   return [
+    //     // {
+    //     //   title: 'EMPLOYEE OFFENSES',
+    //     //   icon: 'summarize',
+    //     //   link: '#/EmployeeTab',
+    //     // },
+    //   ];
+    // },
 
     navigateTo(link) {
       this.selectedLink = link;
@@ -250,5 +274,16 @@ export default {
 }
 .icon-above-text .q-icon {
   font-size: 32px; /* Adjust the icon size as needed */
+}
+
+/* /...................................FOOTER.............................................../ */
+
+.footer {
+  border-bottom: 15px solid #ffc619;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 </style>

@@ -38,12 +38,6 @@ export default route(function ({ store }) {
     const authlogRequired = loginPages.some((page) => page === to.path);
     const authIRlogRequired = IRLoginPages.some((page) => page === to.path);
 
-    let fullpath = to.fullPath.toLowerCase();
-
-    if (fullpath === "/assistantqatable") {
-      console.log("KAHIT ANO");
-    }
-
     if (authlogRequired && !loggedIn) {
       return next("/Login");
     }

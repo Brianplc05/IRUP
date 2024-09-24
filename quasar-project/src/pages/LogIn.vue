@@ -20,7 +20,7 @@
           <q-form @submit.prevent="login" class="form">
             <q-input
               outlined
-              v-model="EmployeeCode"
+              v-model.trim="EmployeeCode"
               label="Employee Number"
               style="width: 90%; margin-left: 25px"
             >
@@ -154,10 +154,12 @@ export default {
   margin-bottom: 10px; /* Adjust the value as needed */
 }
 .logcards {
+  border-bottom: 1em solid #ffc619;
+  border-top: 1em solid #0f4d91;
   background-color: #f2f5f8;
   padding: 1em;
   width: 450px; /* Optional: set a max-width for the card */
-  height: 525px;
+  height: 550px;
 }
 .textwel {
   font-weight: bold;

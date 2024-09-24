@@ -1,6 +1,8 @@
 import state from "./state";
 
 export default {
+  getListModule: (state) => state.getListModule,
+  getAccessModule: (state) => state.getAccessModule,
   getGoogleUser: (state) => state.getGoogleUser,
   getDash: (state) => state.getDash,
   getDirector: (state) => state.getDirector,

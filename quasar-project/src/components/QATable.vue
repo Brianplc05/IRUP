@@ -165,7 +165,11 @@
 
     <template v-slot:body-cell-QA="props">
       <q-td :props="props">
-        <span
+        <span class="text-dark text-bold text-center">{{
+          props.row.MainFullName
+        }}</span>
+
+        <!-- <span
           v-if="props.row.MainFullName !== 'null'"
           :class="{
             'cursor-not-allowed':
@@ -186,7 +190,7 @@
 
         <span
           v-if="props.row.TransferFullName !== null"
-          class="text-dark text-bold text-center"
+
         >
           REDIRECTED TO:
           <b style="background: #ffc619">{{ props.row.TransferFullName }}</b>
@@ -221,9 +225,9 @@
               />
             </q-card-actions>
           </q-card>
-        </q-dialog>
+        </q-dialog> -->
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-        <q-dialog v-model="setQATrans" persistent>
+        <!-- <q-dialog v-model="setQATrans" persistent>
           <q-card class="QAIC">
             <q-card-section class="QAICHead">
               <div class="row items-center justify-between">
@@ -265,10 +269,10 @@
               />
             </q-card-actions>
           </q-card>
-        </q-dialog>
+        </q-dialog> -->
 
         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-        <q-dialog
+        <!-- <q-dialog
           v-model="transfering"
           persistent
           content-class="non-transparent-dialog"
@@ -281,7 +285,15 @@
               </div>
             </q-card-section>
           </q-card>
-        </q-dialog>
+        </q-dialog> -->
+      </q-td>
+    </template>
+
+    <template v-slot:body-cell-involvedDept="props">
+      <q-td>
+        <span class="text-dark text-bold text-center">{{
+          props.row.Department_Involved
+        }}</span>
       </q-td>
     </template>
 
@@ -300,14 +312,6 @@
       </q-td>
     </template>
 
-    <template v-slot:body-cell-involvedDept="props">
-      <q-td>
-        <span class="text-dark text-bold text-center">{{
-          props.row.Department_Involved
-        }}</span>
-      </q-td>
-    </template>
-
     <template v-slot:body-cell-rcaStat="props">
       <td style="width: 50px">
         <q-btn
@@ -316,8 +320,13 @@
           :disable="props.row.PrimaryDept !== null"
           icon="mail_outline"
           @click="requiredRCA(props.row.IRNo)"
-          class="bg-positive text-white text-bold text-center shadow-5"
+          :class="{
+            'bg-positive': props.row.PrimaryDept === null,
+            'bg-dark': props.row.PrimaryDept !== null,
+          }"
+          class="text-white text-bold text-center shadow-5"
         />
+
         <!-- <q-btn
           label="NOT REQUIRED"
           style="margin-left: 20px; width: 120px;"
@@ -468,7 +477,7 @@
           style="width: 125px"
           :disable="props.row.RCA === '3'"
           v-if="props.row.RCA === '3' && props.row.PrimaryDept !== null"
-          class="bg-positive text-white text-bold text-center shadow-5"
+          class="bg-dark text-white text-bold text-center shadow-5"
         />
 
         <!-- ///////////////////////////////////////CONFIRM RCA SUBMISSION////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -714,7 +723,7 @@
             props.row.CombinedActionItems &&
             !props.row.CombinedActionItems.split(', ').includes('1')
           "
-          class="bg-positive text-white text-bold text-center"
+          class="bg-dark text-white text-bold text-center"
           label="COMPLETE"
           style="width: 125px"
         />
@@ -939,7 +948,7 @@
             props.row.CombinedActionItems &&
             !props.row.CombinedActionItems.split(', ').includes('1')
           "
-          class="bg-positive text-white text-bold text-center"
+          class="bg-dark text-white text-bold text-center"
           label="done"
           style="width: 125px"
         />
@@ -1610,7 +1619,7 @@ export default {
           ),
         };
         this.onCancelApprovedRCA();
-        await this.$store.dispatch("ApplyStore/addRCAApproved", ApprovedRca);;
+        await this.$store.dispatch("ApplyStore/addRCAApproved", ApprovedRca);
       } catch (error) {
         console.error("Error creating action items:", error);
       }

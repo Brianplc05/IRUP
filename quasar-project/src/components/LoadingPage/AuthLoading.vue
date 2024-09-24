@@ -25,15 +25,20 @@ export default {
   },
 
   methods: {
-    authenticateUser() {
+    async authenticateUser() {
+      if (!this.getUser) {
+        console.error("User is not logged in, redirecting to login.");
+        this.$router.push("/Login");
+        return;
+      }
+
       try {
-        setTimeout(() => {
-          if (this.getUser) {
-            this.$router.push("/Dashboard");
-          } else {
-            this.$router.push("/Login");
-          }
-        }, 2000);
+        // Dispatch the action only if getUser exists
+        await this.$store.dispatch(
+          "ApplyStore/getAccessRight",
+          this.getUser.EmployeeCode
+        );
+        this.$router.push("/Dashboard");
       } catch (error) {
         console.error("Authentication failed:", error);
         this.$router.push("/Login");

@@ -1,10 +1,16 @@
 export default {
-  ///////// GOOGLE //////////////
+  /////// ACCESS RIGHT ///////
 
+  SET_MODULES(state, getAccessModule) {
+    state.getAccessModule = getAccessModule;
+  },
+
+  ///////////////////////////////////////
+
+  ///////// GOOGLE //////////////
   SET_GOOGLEUSER(state, getGoogleUser) {
     state.getGoogleUser = getGoogleUser;
   },
-
   ////////////////////////////////////////////
 
   ////////////////////////////////////////////

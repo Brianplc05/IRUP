@@ -176,7 +176,7 @@
           </q-card>
         </q-dialog>
 
-        <q-dialog v-model="setDivisionCodeDialogs">
+        <q-dialog v-model="setDivisionCodeDialogs" persistent>
           <q-card>
             <q-card-section class="DivisionHD">
               <div class="row items-center justify-between">

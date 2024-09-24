@@ -1,4 +1,5 @@
 const ApiUrl = process.env.BACKEND_REST_API_URL;
+const AccessApiUrl = process.env.ACCESS_RIGHT_API_URL;
 import { jwtDecode } from "./jwtDecode";
 import axios from "axios";
 
@@ -46,12 +47,13 @@ export default {
   ////////////////////////////////////////////
 
   ///////// LOGIN //////////////
+
   async Login({ commit }, logs) {
     try {
       const response = await axios.post(`${ApiUrl}/login/Login`, logs);
       const decodedUser = jwtDecode(response.data.token);
-      localStorage.setItem("authToken", response.data.token); // Store the authentication token in localStorage
-      localStorage.setItem("user", JSON.stringify(decodedUser)); // Store user information in localStorage
+      localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("user", JSON.stringify(decodedUser));
       commit("SET_USER", decodedUser);
       return decodedUser;
     } catch (error) {
@@ -77,6 +79,42 @@ export default {
       commit("SET_USER", null);
     } catch (error) {
       console.error("Error logging out:", error);
+      throw error;
+    }
+  },
+
+  ////////////////////////////////////////////
+
+  /////////////////ACCESS RIGHT///////////////
+
+  async getAccessRight({ commit, state }, employeeCode) {
+    try {
+      const listModules = state.getListModule; // Assuming this returns an array of module names
+      const appName = encodeURIComponent("Online Incident Report");
+      const code = encodeURIComponent(employeeCode);
+
+      let getAccessModule = [];
+
+      // Loop through all modules
+      for (let i = 0; i < listModules.length; i++) {
+        const moduleName = encodeURIComponent(listModules[i].title);
+        const queryParams = `appName=${appName}&moduleName=${moduleName}&code=${code}`;
+        const responseAccessRight = await axios.get(
+          `${AccessApiUrl}?${queryParams}`
+        );
+        if (responseAccessRight.data[0].isAccess) {
+          getAccessModule.push(listModules[i]);
+        }
+      }
+
+      const defaultModule = state.getListDefaultModule;
+      const combinedModules = [...defaultModule, ...getAccessModule];
+      commit("SET_MODULES", combinedModules);
+
+      // Save the combined modules to localStorage
+      localStorage.setItem("accessModules", JSON.stringify(combinedModules));
+    } catch (error) {
+      console.error("Failed to Access Module:", error);
       throw error;
     }
   },

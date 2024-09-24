@@ -22,7 +22,7 @@
             <q-form @submit.prevent="login" class="form">
               <q-input
                 outlined
-                v-model="EmployeeCode"
+                v-model.trim="EmployeeCode"
                 label="Employee Number"
                 style="width: 90%; margin-left: 25px"
               >
