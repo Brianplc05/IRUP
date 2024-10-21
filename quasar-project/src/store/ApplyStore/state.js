@@ -16,14 +16,14 @@ export default {
       link: "#/DirectorTable",
     },
     {
-      title: "AUDIT MODULE",
-      icon: "assessment",
-      link: "#/AuditTable",
-    },
-    {
       title: "HR MODULE",
       icon: "chrome_reader_mode",
       link: "#/HRTable",
+    },
+    {
+      title: "AUDIT MODULE",
+      icon: "assessment",
+      link: "#/AuditTable",
     },
   ],
   getListDefaultModule: [

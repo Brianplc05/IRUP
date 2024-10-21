@@ -326,7 +326,7 @@
           <q-card>
             <q-card-section class="HRHS">
               <div class="row items-center justify-between">
-                <div class="HRHSTest">FINANCIAL LIABILITY</div>
+                <div class="HRHSTest">PECUNIARY LIABILITY</div>
               </div>
             </q-card-section>
             <q-input
@@ -601,7 +601,13 @@
           @click="editHRNotes(props.row.IRNo)"
           :ripple="{ center: true }"
           style="width: 100px"
-          class="bg-positive text-white text-bold text-center shadow-5"
+          :class="[
+            {
+              'bg-dark': props.row.newHRNote !== null,
+              'bg-positive': props.row.newHRNote === null,
+            },
+            'text-white text-bold text-center shadow-5',
+          ]"
         />
 
         <q-btn
@@ -617,7 +623,13 @@
           @click="editHRNote(props.row.IRNo)"
           :ripple="{ center: true }"
           style="width: 100px"
-          class="bg-positive text-white text-bold text-center shadow-5"
+          :class="[
+            {
+              'bg-dark': props.row.newHRNote !== null,
+              'bg-positive': props.row.newHRNote === null,
+            },
+            'text-white text-bold text-center shadow-5',
+          ]"
         />
 
         <q-dialog v-model="setHRNDialogs" persistent>

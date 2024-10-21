@@ -249,7 +249,7 @@
           <q-btn
             push
             class="bg-positive text-white text-bold text-center"
-            style="width: 35%"
+            style="width: 110px"
             label="CHANGE"
             icon="edit_document"
             v-if="props.row.SubjectCode === 'others'"
@@ -451,8 +451,9 @@ export default {
       try {
         const data = {
           IRNo: this.IRNo,
-          DivisionCode: this.DivisionSubCode,
+          DivisionSubCode: this.DivisionSubCode,
         };
+        console.log(data);
         this.cancelDivision();
         const response = await this.$store.dispatch(
           "ApplyStore/putChangeDivision",
@@ -547,6 +548,7 @@ export default {
           "ApplyStore/putChangeCode",
           data
         );
+        console.log(data);
       } catch (error) {
         console.error("Error inserting data:", error);
       }

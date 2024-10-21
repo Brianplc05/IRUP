@@ -15,7 +15,7 @@
           v-if="isUserLoggedIn"
           push
           class="bg-negative text-white"
-          icon="exit_to_app"
+          icon="logout"
           label="LOGOUT"
           @click="logout"
         />
@@ -155,7 +155,7 @@ export default {
       try {
         await this.logoutAction();
         localStorage.removeItem("accessModules"); // Clear the saved modules on logout
-        this.$router.push("/LogoutPage");
+        this.$router.push("/IRLogout");
       } catch (error) {
         console.error("Error logging out:", error);
       }

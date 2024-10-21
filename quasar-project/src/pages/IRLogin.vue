@@ -58,6 +58,7 @@
                 class="btnlogin"
                 label="LOGIN"
                 color="primary"
+                icon="login"
               />
             </q-form>
           </div>

@@ -156,10 +156,19 @@
     <template v-slot:body-cell-QAreco="props">
       <q-td>
         <q-btn
-          :disable="props.row.lostRec !== null"
+          v-if="props.row.lostRec === null"
           @click="lostRecommendation(props.row.IRNo)"
           icon="recommend"
           class="bg-positive text-white text-bold text-center"
+        >
+        </q-btn>
+
+        <q-btn
+          :disable="props.row.lostRec !== null"
+          v-if="props.row.lostRec !== null"
+          @click="lostRecommendation(props.row.IRNo)"
+          icon="recommend"
+          class="bg-dark text-white text-bold text-center"
         >
         </q-btn>
 
@@ -167,7 +176,7 @@
           <q-card class="DirectorRECOM">
             <q-card-section class="DirectorREC">
               <div class="row items-center justify-between">
-                <div class="DirectorRECText">RECOMENDATION</div>
+                <div class="DirectorRECText">RECOMMENDATION</div>
               </div>
             </q-card-section>
             <q-card-section>

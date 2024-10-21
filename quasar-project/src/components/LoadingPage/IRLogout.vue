@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-center column q-pa-md auth-loading">
     <q-spinner-oval size="150px" color="primary" />
-    <div class="text-h5 q-mt-md" style="color: #0a335f">
+    <div class="text-h5 q-mt-md" style="color: #003566">
       Logging Out, Please wait...
     </div>
   </div>
@@ -9,11 +9,12 @@
 
 <script>
 export default {
-  name: "LogoutPage",
+  name: "IRLogoutPage",
   mounted() {
     setTimeout(() => {
-      this.$router.push("/IRLogin");
+      this.$router.push("/Login");
     }, 2000); // Redirect after 2 seconds (adjust as needed)
+    localStorage.clear();
   },
 };
 </script>

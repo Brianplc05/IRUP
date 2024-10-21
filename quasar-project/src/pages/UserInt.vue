@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative; z-index: 1">
     <div style="height: 100%; width: 100%">
       <div class="box">
         <div class="text1">INCIDENT REPORT</div>
@@ -33,10 +33,11 @@
         </q-item-section>
 
         <q-card-section class="q-pt-none">
-          <p class="TGCONTENT">
-            Incident reports shall undergo analysis. Any person who may be
-            subjected to liability arising from an incident shall be accorded
-            due process.
+          <p class="TGCONTENT" style="text-align: justify">
+            By submitting this incident report, the undersigned acknowledges
+            that the information provided is accurate and complete to the best
+            of their knowledge and agrees to fully cooperate with any subsequent
+            investigation or follow-up actions as required.
           </p>
         </q-card-section>
 
@@ -497,9 +498,19 @@
 
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
     </q-dialog>
-
     <footer class="footer"></footer>
   </div>
+  <img
+    src="../assets/OMBRE-GRAY.jpg"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    "
+  />
 </template>
 
 <script>
@@ -521,7 +532,7 @@ export default {
       pdfdialog: false,
       maximizedToggle: false,
       loading: false,
-      disEmpDep: [],
+      // disEmpDep: [],
       disSubName: [],
       disSubCategory: [],
       disDivision: [],
@@ -543,7 +554,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      getForm: "ApplyStore/getForm",
+      // getForm: "ApplyStore/getForm",
       getGoogleUser: "ApplyStore/getGoogleUser",
       loggedInUser: "ApplyStore/getUser",
       getIRForm: "ApplyStore/getIRForm",
@@ -604,7 +615,7 @@ export default {
       },
     };
 
-    this.getED();
+    // this.getED();
     this.getSN();
     this.getSC();
     this.getDisivion();
@@ -643,14 +654,14 @@ export default {
           this.showLoading = false;
           this.clearForm(); // Clear the form after 1 second
           this.print = true;
-        }, 3000);
+        }, 6000);
         this.$q.notify({
           color: "positive",
           position: "top",
           message: "SUCCESSFULLY SENT THE REPORT TO THE QUALITY OFFICER",
           icon: "report_problem",
           iconColor: "white",
-          timeout: 2000,
+          timeout: 3000,
           progress: true,
         });
       } catch (error) {
@@ -676,14 +687,14 @@ export default {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    async getED() {
-      try {
-        await this.$store.dispatch("ApplyStore/disEmDept");
-        this.disEmpDep = this.getForm;
-      } catch (error) {
-        console.error("Error Displaying Data:", error);
-      }
-    },
+    // async getED() {
+    //   try {
+    //     await this.$store.dispatch("ApplyStore/disEmDept");
+    //     this.disEmpDep = this.getForm;
+    //   } catch (error) {
+    //     console.error("Error Displaying Data:", error);
+    //   }
+    // },
 
     async getSN() {
       try {
@@ -1162,7 +1173,6 @@ export default {
       this.form = false;
       this.pdfdialog = false;
       this.maximizedToggle = false;
-      this.IRNo = [];
     },
 
     mounted() {
@@ -1176,11 +1186,10 @@ export default {
 .box {
   height: 100%;
   width: 50%;
-  background-color: #ffffff;
+  background-color: transparent;
   align-content: center;
-  margin-left: 27%;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-left: 25%;
+  margin-top: 100px;
 }
 
 .text1 {
@@ -1188,10 +1197,12 @@ export default {
   font-weight: bold;
   font-family: Arial Black;
   display: flex;
-  color: #000000;
-  font-size: 50px;
+  color: #003566;
+  font-size: 55px;
   justify-content: center;
+  text-shadow: 5px 5px 10px #ffffff; /* White shadow */
 }
+
 .text2 {
   margin-top: 30px;
   display: flex;
@@ -1229,7 +1240,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  border-top: 1px solid rgb(5, 4, 4);
+  border-top: 1px solid rgb(245, 245, 245);
 }
 
 /* <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> */
@@ -1255,7 +1266,7 @@ export default {
 
 .TOG {
   background-color: #ffffff;
-  height: 255px; /* You can adjust the units based on your preference, 'vw' for viewport width */
+  height: 285px; /* You can adjust the units based on your preference, 'vw' for viewport width */
   border: 0.2em solid #f3f4f7;
 }
 .TGHEAD {

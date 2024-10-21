@@ -1,13 +1,16 @@
 <template>
-  <div class="flex flex-center column q-pa-md auth-loading">
-    <q-spinner-pie
-      :size="$q.screen.lt.md ? '100px' : '150px'"
-      color="primary"
-    />
-    <div class="text-h6 q-mt-md" style="color: #0a335f">
-      Authenticating, Please wait...
-    </div>
+  <div
+    class="flex flex-center column q-pa-md"
+    style="min-height: 100vh; position: relative; z-index: 1"
+  >
+    <q-spinner-pie class="spinner" color="primary" />
+    <div class="q-mt-md loading-text">Authenticating, Please wait...</div>
   </div>
+  <img
+    src="../../assets/LoadingBG.png"
+    alt="Loading Image"
+    class="background-image"
+  />
 </template>
 
 <script>
@@ -31,7 +34,6 @@ export default {
         this.$router.push("/Login");
         return;
       }
-
       try {
         // Dispatch the action only if getUser exists
         await this.$store.dispatch(
@@ -39,6 +41,7 @@ export default {
           this.getUser.EmployeeCode
         );
         this.$router.push("/Dashboard");
+        console.log(this.$route);
       } catch (error) {
         console.error("Authentication failed:", error);
         this.$router.push("/Login");
@@ -49,9 +52,29 @@ export default {
 </script>
 
 <style scoped>
-.auth-loading {
-  background-color: aliceblue;
+.spinner {
+  width: 15vw;
+  height: 15vw;
+  max-width: 150px;
+  max-height: 150px;
+  z-index: 1; /* Ensure it's above the background */
+}
+
+.loading-text {
+  color: #0a335f; /* Adjust if needed */
+  font-size: 28px;
+  z-index: 1; /* Ensure it's above the background */
+  text-align: center; /* Center text alignment */
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%; /* Adjusted height to cover the whole screen */
+  z-index: 0;
+  object-fit: cover;
+  opacity: 0.7; /* Added opacity for better text visibility */
 }
 </style>

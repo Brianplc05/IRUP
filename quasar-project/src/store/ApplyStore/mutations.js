@@ -34,6 +34,10 @@ export default {
     state.getUser = getUser;
   },
 
+  RESET_ACCESS_MODULE(state) {
+    state.getAccessModule = [];
+  },
+
   ///////// DASHBOARD //////////////
   GET_DASH(state, getDash) {
     state.getDash = getDash;

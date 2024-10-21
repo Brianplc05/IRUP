@@ -73,10 +73,14 @@ export default {
 
   async logoutAction({ commit }) {
     try {
-      // Remove the authentication token from localStorage
+      // Remove the authentication token and user data from localStorage
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
-      commit("SET_USER", null);
+      localStorage.removeItem("accessModules");
+
+      // Commit the mutations separately
+      commit("SET_USER", null); // Reset the user state to null
+      commit("RESET_ACCESS_MODULE"); // Reset the access module to an empty array
     } catch (error) {
       console.error("Error logging out:", error);
       throw error;
@@ -122,9 +126,15 @@ export default {
   ////////////////////////////////////////////
 
   ///////// IRFORM //////////////
+
   async disEmDept({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/EmpdeptForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/EmpdeptForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_EmpDept", response.data);
     } catch (error) {
       console.error("Failed to Employee & Departments:", error);
@@ -134,7 +144,12 @@ export default {
 
   async disSubName({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/SubNameForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/SubNameForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_SubName", response.data.recordsets[0]);
     } catch (error) {
       console.error("Failed to display Incident:", error);
@@ -144,7 +159,12 @@ export default {
 
   async disSubCategory({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/SubCategoryForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/SubCategoryForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_SubCategory", response.data.recordsets[0]);
     } catch (error) {
       console.error("Failed to display Sub Category:", error);
@@ -154,7 +174,12 @@ export default {
 
   async disDivision({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/DivisionForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DivisionForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_Division", response.data.recordsets[0]);
     } catch (error) {
       console.error("Failed to display Division:", error);
@@ -164,9 +189,15 @@ export default {
 
   async addIReport({ commit }, formData) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddIncident`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("ADD_IRFORM", response.data);
     } catch (error) {
@@ -188,136 +219,6 @@ export default {
         },
       });
       commit("GET_DASH", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  ////////////////////////////////////////////
-
-  /////////  DIRECTOR TABLE  //////////////////
-
-  async disDirector({ commit }) {
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.get(`${ApiUrl}/forms/DisplayDirectorForm`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      commit("GET_DIRECTOR", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disDirectorIrp({ commit }, data) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayDirectorIRP`, {
-        params: data,
-      });
-      commit("GET_DIRECTIR", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async addLostRecommendation({ commit }, lostRecom) {
-    try {
-      const response = await axios.put(
-        `${ApiUrl}/forms/AddRecommendationDirector`,
-        lostRecom
-      );
-      commit("ADD_QAFORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error.response.data);
-      throw error;
-    }
-  },
-
-  ////////////////////////////////////////////
-
-  /////////  ASSISTANTQA TABLE  //////////////////
-  async disAssistantQA({ commit }) {
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.get(
-        `${ApiUrl}/forms/DisplayAssistantQASub`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      commit("GET_ASSISTANTQA", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disAQA({ commit }, data) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayAQA`, {
-        params: data,
-      });
-      commit("GET_ASSISTANTQAFORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disSubjectCode({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplaySubjectCode`);
-      commit("GET_ASSISTANTSUBCODE", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disDivisionCode({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayDivisionCode`);
-      commit("GET_ASSISTANTDIVCODE", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async putChangeCode({ commit }, data) {
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await axios.put(
-        `${ApiUrl}/forms/PutSubjectCode`,
-        {
-          params: data,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      commit("GET_ASSISTANTQA", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async putChangeDivision({ commit }, data) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/PutDivisionCode`, {
-        params: data,
-      });
-      commit("GET_ASSISTANTQA", response.data);
     } catch (error) {
       console.error("ERROR", error);
       throw error;
@@ -364,7 +265,167 @@ export default {
 
   ////////////////////////////////////////////
 
+  /////////  DIRECTOR TABLE  //////////////////
+
+  async disDirector({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayDirectorForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_DIRECTOR", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async disDirectorIrp({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayDirectorIRP`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_DIRECTIR", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async addLostRecommendation({ commit }, lostRecom) {
+    try {
+      const token = localStorage.getItem("authToken");
+      console.log(lostRecom);
+      const response = await axios.put(
+        `${ApiUrl}/forms/AddRecommendationDirector`,
+        lostRecom,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      commit("GET_DIRECTIR", response.data);
+    } catch (error) {
+      console.error("ERROR", error.response.data);
+      throw error;
+    }
+  },
+
+  ////////////////////////////////////////////
+
+  /////////  ASSISTANTQA TABLE  //////////////////
+
+  async disAssistantQA({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(
+        `${ApiUrl}/forms/DisplayAssistantQASub`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      commit("GET_ASSISTANTQA", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async disAQA({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayAQA`, {
+        params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_ASSISTANTQAFORM", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async disSubjectCode({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplaySubjectCode`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_ASSISTANTSUBCODE", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async disDivisionCode({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayDivisionCode`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_ASSISTANTDIVCODE", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async putChangeCode({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      console.log(data);
+      const response = await axios.put(`${ApiUrl}/forms/PutSubjectCode`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_ASSISTANTQA", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async putChangeDivision({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `${ApiUrl}/forms/PutDivisionCode`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      commit("GET_ASSISTANTQA", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  ////////////////////////////////////////////
+
   //////////////QATABLE/////////////////
+
   async disIncQA({ commit }) {
     try {
       const token = localStorage.getItem("authToken");
@@ -380,20 +441,14 @@ export default {
     }
   },
 
-  async disQAs({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayQA`);
-      commit("GET_QA", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
   async disIrp({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(`${ApiUrl}/forms/DisplayIRP`, {
         params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       commit("GET_QAIR", response.data);
     } catch (error) {
@@ -402,12 +457,124 @@ export default {
     }
   },
 
+  async departments({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DepartmentForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("SET_DEPARTMENTS", response.data);
+    } catch (error) {
+      console.error("Failed to fetch departments:", error);
+      throw error;
+    }
+  },
+
+  async addEmail({ commit }, addEmail) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(
+        `${ApiUrl}/forms/AddQADeptEmail`,
+        addEmail,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      commit("ADD_QAFORM", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  // async AddCon({ commit }, data) {
+  //   try {
+  //     const response = await axios.post(`${ApiUrl}/forms/AddConclusion`, data);
+  //     commit("GET_FORM", response.data.recordset);
+  //   } catch (error) {
+  //     console.error("ERROR", error);
+  //     throw error;
+  //   }
+  // },
+
+  async disQAs({ commit }) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayQA`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("GET_QA", response.data);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
   async AddqaTrans({ commit }, payload) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddQATransfer`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      commit("GET_FORM", response.data);
+    } catch (error) {
+      console.error("Error updating status:", error.response); // Log the full error response
+      throw error;
+    }
+  },
+
+  // async AddqaRef({ commit }, payload) {
+  //   try {
+  //     const response = await axios.put(
+  //       `${ApiUrl}/forms/AddQARefferal`,
+  //       payload
+  //     );
+  //     commit("GET_FORM", response.data);
+  //   } catch (error) {
+  //     console.error("Error updating status:", error.response); // Log the full error response
+  //     throw error;
+  //   }
+  // },
+
+  async AddRECon({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(
+        `${ApiUrl}/forms/AddREConclusion`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      commit("GET_FORM", response.data.recordset);
+    } catch (error) {
+      console.error("ERROR", error);
+      throw error;
+    }
+  },
+
+  async putRCASub({ commit }, payload) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/PutRCASub`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Error updating status:", error.response); // Log the full error response
@@ -417,9 +584,15 @@ export default {
 
   async addRCAApproved({ commit }, ApprovedRca) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddApprovedRCA`,
-        ApprovedRca
+        ApprovedRca,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("ADD_QAFORM", response.data);
     } catch (error) {
@@ -430,9 +603,15 @@ export default {
 
   async addRCADispproved({ commit }, DispprovedRca) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddDisApprovedRCA`,
-        DispprovedRca
+        DispprovedRca,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("ADD_QAFORM", response.data);
     } catch (error) {
@@ -443,8 +622,12 @@ export default {
 
   async disActionItem({ commit }, acttab) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(`${ApiUrl}/forms/DisplayActionItem`, {
         params: acttab,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       commit("GET_ACTION", response.data);
     } catch (error) {
@@ -455,20 +638,16 @@ export default {
 
   async putActionStatus({ commit }, payload) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.put(
         `${ApiUrl}/forms/putActionItemStatus`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      commit("GET_ACTION", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error);
-      throw error;
-    }
-  },
-
-  async putQAStatus({ commit }, payload) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/putQADStatus`, payload);
       commit("GET_ACTION", response.data);
     } catch (error) {
       console.error("Error updating status:", error);
@@ -478,10 +657,14 @@ export default {
 
   async disPendingRemarks({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(
         `${ApiUrl}/forms//DisplayPendingRemarks`,
         {
           params: data,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       commit("GET_PENREMARKS", response.data);
@@ -493,92 +676,38 @@ export default {
 
   async AddPendingRemarks({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddPendingRemarks`,
-        data
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("GET_FORM", response.data.recordset);
     } catch (error) {
       console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async addEmail({ commit }, addEmail) {
-    try {
-      const response = await axios.post(
-        `${ApiUrl}/forms/AddQADeptEmail`,
-        addEmail
-      );
-      commit("ADD_QAFORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async AddCon({ commit }, data) {
-    try {
-      const response = await axios.post(`${ApiUrl}/forms/AddConclusion`, data);
-      commit("GET_FORM", response.data.recordset);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async AddRECon({ commit }, data) {
-    try {
-      const response = await axios.post(
-        `${ApiUrl}/forms/AddREConclusion`,
-        data
-      );
-      commit("GET_FORM", response.data.recordset);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async AddqaRef({ commit }, payload) {
-    try {
-      const response = await axios.put(
-        `${ApiUrl}/forms/AddQARefferal`,
-        payload
-      );
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error.response); // Log the full error response
-      throw error;
-    }
-  },
-
-  async putRCASub({ commit }, payload) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/PutRCASub`, payload);
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error.response); // Log the full error response
       throw error;
     }
   },
 
   async putqaIR({ commit }, payload) {
     try {
-      const response = await axios.put(`${ApiUrl}/forms/putQADStatus`, payload);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(
+        `${ApiUrl}/forms/putQADStatus`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Error updating status:", error.response); // Log the full error response
-      throw error;
-    }
-  },
-
-  async departments({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DepartmentForm`);
-      commit("SET_DEPARTMENTS", response.data);
-    } catch (error) {
-      console.error("Failed to fetch departments:", error);
       throw error;
     }
   },
@@ -586,6 +715,7 @@ export default {
   //////////////////////////////////////
 
   ///////// HRTABLE //////////////
+
   async disInc({ commit }) {
     try {
       const token = localStorage.getItem("authToken");
@@ -603,7 +733,12 @@ export default {
 
   async puthrIR({ commit }, payload) {
     try {
-      const response = await axios.put(`${ApiUrl}/forms/puthrStatus`, payload);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/puthrStatus`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Error updating status:", error.response); // Log the full error response
@@ -613,8 +748,12 @@ export default {
 
   async disIrpHR({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(`${ApiUrl}/forms/DisplayHRIRP`, {
         params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       commit("GET_QAFORM", response.data);
     } catch (error) {
@@ -625,9 +764,15 @@ export default {
 
   async AddfinLia({ commit }, payload) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.put(
         `${ApiUrl}/forms/AddFinancialLiability`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("GET_FORM", response.data);
     } catch (error) {
@@ -638,7 +783,12 @@ export default {
 
   async putDisAct({ commit }, payload) {
     try {
-      const response = await axios.put(`${ApiUrl}/forms/puthrAct`, payload);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/puthrAct`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Error updating status:", error.response); // Log the full error response
@@ -648,7 +798,12 @@ export default {
 
   async AddNew({ commit }, data) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddNote`, data);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(`${ApiUrl}/forms/AddNote`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data.recordset);
     } catch (error) {
       console.error("ERROR", error);
@@ -658,7 +813,12 @@ export default {
 
   async AddNoteNew({ commit }, data) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddHRNote`, data);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(`${ApiUrl}/forms/AddHRNote`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data.recordset);
     } catch (error) {
       console.error("ERROR", error);
@@ -666,29 +826,14 @@ export default {
     }
   },
 
-  async putDem({ commit }, payload) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/InsertDem`, payload);
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error);
-      throw error;
-    }
-  },
-
-  async Employees({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisEmploForm`);
-      commit("SET_EMPLOYEES", response.data);
-    } catch (error) {
-      console.error("Failed to fetch departments:", error);
-      throw error;
-    }
-  },
-
   async EmplDem({ commit }, data) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddEmplo`, data);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(`${ApiUrl}/forms/AddEmplo`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("EMPLOYEE_FORM", response.data.recordset);
     } catch (error) {
       console.error("ERROR", error);
@@ -696,19 +841,39 @@ export default {
     }
   },
 
-  async DeptDem({ commit }, data) {
+  async Employees({ commit }) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddDept`, data);
-      commit("DEPT_FORM", response.data.recordset);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisEmploForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("SET_EMPLOYEES", response.data);
     } catch (error) {
-      console.error("ERROR", error);
+      console.error("Failed to fetch departments:", error);
       throw error;
     }
   },
 
+  // async DeptDem({ commit }, data) {
+  //   try {
+  //     const response = await axios.post(`${ApiUrl}/forms/AddDept`, data);
+  //     commit("DEPT_FORM", response.data.recordset);
+  //   } catch (error) {
+  //     console.error("ERROR", error);
+  //     throw error;
+  //   }
+  // },
+
   async codedis({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/CodeDisForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/CodeDisForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Failed to fetch departments:", error);
@@ -718,52 +883,31 @@ export default {
 
   async speOfdis({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/SpecificOfForm`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/SpecificOfForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Failed to fetch departments:", error);
       throw error;
     }
   },
+
   ////////////////////////////////////////////
 
   ////HRDEMERIT/////
 
-  async disTab({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayTab`);
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disEmpTab({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayEmpTab`);
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  async disDepTab({ commit }) {
-    try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayDepTab`);
-      commit("GET_FORM", response.data);
-    } catch (error) {
-      console.error("ERROR", error);
-      throw error;
-    }
-  },
-
-  ////////////////////////////////////////
-
   async disEmployeeDem({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayEmployees`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayEmployees`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_EMPLOYEES", response.data);
     } catch (error) {
       console.error("ERROR", error);
@@ -773,8 +917,12 @@ export default {
 
   async disDemerit({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(`${ApiUrl}/forms/DisplayEmpTab`, {
         params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       commit("DEMERIT_FORM", response.data); // Assuming response.data is an array of records
     } catch (error) {
@@ -785,7 +933,8 @@ export default {
 
   ////////////////////////////////////////
 
-  ////////////////////////AUDIT//////////////////////////////
+  //////////////AUDIT//////////////////////////////
+
   async disTab({ commit }) {
     try {
       const token = localStorage.getItem("authToken");
@@ -803,7 +952,12 @@ export default {
 
   async disSubjectTab({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplaySubjectTab`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplaySubjectTab`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_SUBJECTFORM", response.data);
     } catch (error) {
       console.error("ERROR", error);
@@ -813,9 +967,15 @@ export default {
 
   async addSubjectDetails({ commit }, riskdata) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         `${ApiUrl}/forms/AddSubjectDetails`,
-        riskdata
+        riskdata,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       commit("AUDIT_FORM", response.data);
     } catch (error) {
@@ -824,10 +984,14 @@ export default {
     }
   },
 
-  async disDomainCode({ commit }) {
+  async disRiskTab({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/DomainCodeForm`);
-
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DisplayRiskTab`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_RISKFORM", response.data);
     } catch (error) {
       console.error("ERROR", error);
@@ -835,9 +999,14 @@ export default {
     }
   },
 
-  async disRiskTab({ commit }) {
+  async disDomainCode({ commit }) {
     try {
-      const response = await axios.get(`${ApiUrl}/forms/DisplayRiskTab`);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.get(`${ApiUrl}/forms/DomainCodeForm`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_RISKFORM", response.data);
     } catch (error) {
       console.error("ERROR", error);
@@ -847,7 +1016,12 @@ export default {
 
   async addRiskDictionary({ commit }, riskdic) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddRiskDic`, riskdic);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(`${ApiUrl}/forms/AddRiskDic`, riskdic, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_RISKFORM", response.data);
     } catch (error) {
       console.error("ERROR", error);
@@ -857,7 +1031,12 @@ export default {
 
   async AddAud({ commit }, data) {
     try {
-      const response = await axios.post(`${ApiUrl}/forms/AddAudit`, data);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.post(`${ApiUrl}/forms/AddAudit`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("ADD_FORM", response.data.recordset);
     } catch (error) {
       console.error("ERROR", error);
@@ -865,30 +1044,14 @@ export default {
     }
   },
 
-  async putEdNote({ commit }, payload) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/EditNote`, payload);
-      commit("AUDIT_FORM", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error);
-      throw error;
-    }
-  },
-
-  async putNote({ commit }, data) {
-    try {
-      const response = await axios.put(`${ApiUrl}/forms/DeletedNote`, data);
-      commit("AUDIT_FORM", response.data);
-    } catch (error) {
-      console.error("Error updating status:", error);
-      throw error;
-    }
-  },
-
   async disNote({ commit }, data) {
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.get(`${ApiUrl}/forms/DisplayNote`, {
         params: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       commit("AUDIT_FORM", response.data);
     } catch (error) {
@@ -897,9 +1060,44 @@ export default {
     }
   },
 
+  async putNote({ commit }, data) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/DeletedNote`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("AUDIT_FORM", response.data);
+    } catch (error) {
+      console.error("Error updating status:", error);
+      throw error;
+    }
+  },
+
+  async putEdNote({ commit }, payload) {
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/EditNote`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("AUDIT_FORM", response.data);
+    } catch (error) {
+      console.error("Error updating status:", error);
+      throw error;
+    }
+  },
+
   async putauditIR({ commit }, payload) {
     try {
-      const response = await axios.put(`${ApiUrl}/forms/Putaudit`, payload);
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(`${ApiUrl}/forms/Putaudit`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       commit("GET_FORM", response.data);
     } catch (error) {
       console.error("Error updating status:", error.response); // Log the full error response

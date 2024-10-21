@@ -1,5 +1,5 @@
 <template>
-  <div id="q-app" style="min-height: 100vh">
+  <div id="q-app" style="min-height: 100vh; position: relative; z-index: 1">
     <div class="q-pa-sm row items-start q-gutter-xs">
       <div class="my-card">
         <q-card-section
@@ -62,6 +62,7 @@
           <humanRTable
             v-show="showTable"
             :items="filteredDisAll"
+            :pagination="{ rowsPerPage: 8 }"
             :columns="disColumns"
             :hrStats="hrStats"
             :getInc="getInc"
@@ -77,6 +78,17 @@
       </div>
     </div>
   </div>
+  <img
+    src="../assets/OMBRE-GRAY.jpg"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    "
+  />
 </template>
 
 <script>
@@ -100,7 +112,7 @@ export default {
         { name: "IRNo", label: "IRNUMBER", align: "left", field: "IRNo" },
         {
           name: "departmentNumber",
-          label: "INFORMANT (DEPARTMENT)",
+          label: "INCIDENT RESPONDER (DEPARTMENT)",
           align: "left",
           field: "Department_Description",
         },
@@ -110,7 +122,7 @@ export default {
           align: "left",
           field: "SubjectName",
         },
-        { name: "QA", label: "QA INCHARGE", align: "left", field: "id" },
+        { name: "QA", label: "QA IN-CHARGE", align: "left", field: "id" },
         {
           name: "lostrec",
           label: "LOST RECOVERY REQUIRED",
@@ -454,7 +466,7 @@ export default {
 /* ///////////////////////////////////////HRSTATUS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 .HRHS {
-  height: 8HRNT5px;
+  height: 85px;
   border: 0.2em solid #f3f4f7;
   background-color: #003566;
   border: 0.6em solid #d5d7da;

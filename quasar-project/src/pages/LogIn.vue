@@ -12,7 +12,11 @@
     <div class="q-pa-md row items-start" style="position: relative; z-index: 1">
       <div class="logcards">
         <div class="text-center">
-          <img src="../assets/IRLogo.png" class="custom-image" />
+          <img
+            src="../assets/IRLogo.png"
+            class="custom-image"
+            style="margin-top: 10px; width: 45%; height: 40%"
+          />
           <div class="textwel">WELCOME</div>
           <div class="textdash">Please log in to the Admin Dashboard.</div>
         </div>
@@ -58,6 +62,7 @@
               class="btnlogin shadow-12"
               label="LOGIN"
               color="primary"
+              icon="login"
             />
           </q-form>
         </q-card-section>

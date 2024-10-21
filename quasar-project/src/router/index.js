@@ -35,17 +35,24 @@ export default route(function ({ store }) {
     ];
 
     const loggedIn = localStorage.getItem("user");
-    const authlogRequired = loginPages.some((page) => page === to.path);
-    const authIRlogRequired = IRLoginPages.some((page) => page === to.path);
 
-    if (authlogRequired && !loggedIn) {
-      return next("/Login");
+    const authRequired = loginPages.includes(to.path);
+    const IRAuthRequired = IRLoginPages.includes(to.path);
+
+    // Check if the user is logging out and allow them to go to the login page
+    if (to.path === "/Login" || to.path === "/IRLogin") {
+      return next(); // Allow navigation to the login page without restriction
     }
 
-    if (authIRlogRequired && !loggedIn) {
-      return next("/IRLogin");
+    // Redirect if authentication is required and user is not logged in
+    if (!loggedIn) {
+      if (authRequired) {
+        return next("/IRLogin");
+      } else if (IRAuthRequired) {
+        return next("/Login");
+      }
     }
-    next();
+    next(); // Proceed to the route if no redirection is needed
   });
 
   return Router;

@@ -52,7 +52,7 @@
               <q-card-actions align="right" class="custom-card-actions">
                 <q-btn
                   push
-                  icon="exit_to_app"
+                  icon="logout"
                   label="LOGOUT"
                   @click="logout"
                   color="secondary"
@@ -117,7 +117,7 @@ export default {
           this.$router.push("/google-authlogout");
         } else {
           await this.logoutAction();
-          this.$router.push("/IRLogout");
+          this.$router.push("/LogoutPage");
         }
       } catch (error) {
         console.error("Error logging out:", error);
